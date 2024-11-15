@@ -41,12 +41,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="40sp"
-                android:fontFamily="@font/poppins_bold"
+                android:fontFamily="@font/poppins_extrabold"
                 android:text="@string/campus"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="24sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/WhiteTextInputLayout"
@@ -65,7 +64,6 @@
                     android:textColor="@color/white"
                     android:textColorHint="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/WhiteTextInputLayout"

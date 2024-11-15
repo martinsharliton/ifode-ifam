@@ -2,9 +2,43 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Cardapio" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Defina uma cor primária explícita -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary</item>
-        <item name="colorOutline">@color/primary</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorOutline">@color/white</item>
         <item name="colorOnSurfaceVariant">@color/white</item>
+    </style>
+
+    <style name="WhiteTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="hintTextColor">@color/white</item>
+        <item name="placeholderTextColor">@color/white</item>
+        <item name="borderlessButtonStyle">@color/white</item>
+        <item name="cursorColor">@color/white</item>
+        <item name="colorContainer">@color/white</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+    </style>
+
+    <style name="GreenTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="android:editTextColor">@color/primary</item>
+        <item name="hintTextColor">@color/primary</item>
+        <item name="placeholderTextColor">@color/primary</item>
+        <item name="borderlessButtonStyle">@color/primary</item>
+        <item name="cursorColor">@color/primary</item>
+        <item name="colorContainer">@color/primary</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
     </style>
 </resources>
