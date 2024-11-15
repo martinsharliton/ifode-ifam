@@ -6,4 +6,10 @@
     <string name="campus">Campus Manaus Zona Leste</string>
     <string name="usu_rio">Usuário</string>
     <string name="criar_conta">Criar Conta</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="matricula">Matricula</string>
+    <string name="email_institucional">Email Institucional</string>
+    <string name="confirmar_senha">Confirmar Senha</string>
+    <string name="cadastrar_se">Cadastrar-se</string>
+    <string name="crie_nsua_conta">Crie \nsua Conta!</string>
 </resources>

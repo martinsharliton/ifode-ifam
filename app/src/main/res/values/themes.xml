@@ -3,11 +3,8 @@
     <style name="Base.Theme.Cardapio" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Defina uma cor primária explícita -->
         <item name="colorPrimary">@color/primary</item>
-
-        <!-- Adicione colorOutline para a cor da borda do outline -->
-        <item name="colorOutline">@color/white</item>
-
-        <!-- Defina colorOnSurfaceVariant para adaptar o texto e a borda -->
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorOutline">@color/primary</item>
         <item name="colorOnSurfaceVariant">@color/white</item>
     </style>
 

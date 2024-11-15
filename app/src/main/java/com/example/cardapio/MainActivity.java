@@ -1,5 +1,6 @@
 package com.example.cardapio;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         criarConta.setOnClickListener((v) -> {
-            Toast.makeText(v.getContext(), "Ir para a tela de cadastro", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(MainActivity.this, CriarConta.class);
+            startActivity(intent);
+            Toast.makeText(v.getContext(), "Entrou na tela de cadastro", Toast.LENGTH_LONG).show();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
