@@ -1,8 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Cardapio" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Defina uma cor primária explícita -->
+        <item name="colorPrimary">@color/primary</item>
+
+        <!-- Adicione colorOutline para a cor da borda do outline -->
+        <item name="colorOutline">@color/white</item>
+
+        <!-- Defina colorOnSurfaceVariant para adaptar o texto e a borda -->
+        <item name="colorOnSurfaceVariant">@color/white</item>
     </style>
 
     <style name="Theme.Cardapio" parent="Base.Theme.Cardapio" />
