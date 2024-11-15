@@ -40,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="40sp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/campus"
                 android:textAlignment="center"
@@ -48,14 +49,12 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/WhiteTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColorHint="@color/white"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/white"
-                app:hintTextColor="@color/white"
-                app:placeholderTextColor="@color/white">
+                app:boxBackgroundMode="outline">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextUsuario"
@@ -69,14 +68,12 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/WhiteTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:textColorHint="@color/white"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/white"
-                app:hintTextColor="@color/white"
-                app:placeholderTextColor="@color/white">
+                app:boxBackgroundMode="outline">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextSenha"
@@ -129,23 +126,13 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:backgroundTint="@color/green_accent"
-                android:elevation="10dp"
+                android:elevation="50dp"
                 android:fontFamily="@font/poppins"
                 android:padding="15dp"
                 android:text="@string/criar_conta"
-                android:textColor="@color/primary"
+                android:textColor="#185247"
                 android:textSize="18sp"
                 android:translationZ="15dp" />
-
-
-            <!-- <TextView
-                 android:id="@+id/textView2"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="12dp"
-                 android:fontFamily="@font/poppins"
-                 android:text="@string/diretoria_de_tecnologia_dos_pms"
-                 android:textColor="@color/black" /> -->
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

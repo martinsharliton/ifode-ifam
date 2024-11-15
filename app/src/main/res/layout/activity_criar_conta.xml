@@ -1,29 +1,30 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/gray"
     android:background="@color/gray"
+    android:backgroundTint="@color/gray"
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardLogin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-      android:backgroundTint="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent"
         app:cardBackgroundColor="@android:color/transparent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/fieldsContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/fieldsContainer">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardBackgroundColor="@android:color/transparent"
             android:background="@drawable/card_criar_conta"
             android:gravity="center"
             android:orientation="vertical"
@@ -41,6 +42,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+
     <LinearLayout
         android:id="@+id/fieldsContainer"
         android:layout_width="match_parent"
@@ -56,14 +58,11 @@
 
         <!-- Username input field -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/GreenTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColorHint="@color/primary"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/primary"
-            app:hintTextColor="@color/primary"
-            app:placeholderTextColor="@color/primary">
+            android:layout_marginTop="50dp"
+            android:textColorHint="@color/primary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextMatricula"
@@ -76,14 +75,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/GreenTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColorHint="@color/primary"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/primary"
-            app:hintTextColor="@color/primary"
-            app:placeholderTextColor="@color/primary">
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/primary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextNomeCompleto"
@@ -96,14 +92,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/GreenTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColorHint="@color/primary"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/primary"
-            app:hintTextColor="@color/primary"
-            app:placeholderTextColor="@color/primary">
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/primary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextEmail"
@@ -116,17 +109,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/GreenTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColorHint="@color/primary"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/primary"
-            app:hintTextColor="@color/primary"
-            app:placeholderTextColor="@color/primary">
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/primary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextSenha"
+
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/senha"
@@ -137,14 +128,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/GreenTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColorHint="@color/primary"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/primary"
-            app:hintTextColor="@color/primary"
-            app:placeholderTextColor="@color/primary">
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/primary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextConfirmarSenha"
@@ -157,14 +145,13 @@
                 android:textColorHint="@color/primary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Login button -->
         <Button
             android:id="@+id/buttonLogin"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/primary"
+            android:backgroundTint="#1C5A52"
             android:padding="15dp"
             android:text="@string/cadastrar_se"
             android:textColor="@color/white"
