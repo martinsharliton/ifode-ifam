@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cardapio"
+    namespace = "com.app.cardapio"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.cardapio"
+        applicationId = "com.app.cardapio"
         minSdk = 29
         targetSdk = 34
         versionCode = 1

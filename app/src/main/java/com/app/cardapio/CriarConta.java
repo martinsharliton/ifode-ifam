@@ -1,4 +1,4 @@
-package com.example.cardapio;
+package com.app.cardapio;
 
 import android.os.Bundle;
 
