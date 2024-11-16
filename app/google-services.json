@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "848880589097",
+    "project_id": "cardapio-digital-c94c4",
+    "storage_bucket": "cardapio-digital-c94c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848880589097:android:a1d0bdf6fdd2130422ff38",
+        "android_client_info": {
+          "package_name": "com.app.cardapio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEFDXOcFQruAcHiye4S2gI49P2_Q_3AmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
