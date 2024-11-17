@@ -66,6 +66,7 @@
                 android:id="@+id/editTextMatricula"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:inputType="number"
                 android:hint="@string/matricula"
                 android:padding="12dp"
                 android:textColor="@color/primary"
@@ -100,6 +101,7 @@
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:inputType="textEmailAddress"
                 android:hint="@string/email_institucional"
                 android:padding="12dp"
                 android:textColor="@color/primary"
@@ -144,7 +146,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/buttonCadastrar"
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:layout_marginTop="50dp"

@@ -34,7 +34,9 @@
                 android:layout_width="350dp"
                 android:layout_height="250dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/logo_ifam" />
+                android:contentDescription="logo_ifam"
+                android:src="@drawable/logo_ifam"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -59,7 +61,7 @@
                     android:id="@+id/editTextUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="@string/usu_rio"
+                    android:hint="@string/matricula"
                     android:padding="12dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white" />

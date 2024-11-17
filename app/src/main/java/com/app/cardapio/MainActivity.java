@@ -14,9 +14,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    // EditText
     private EditText usuario;
     private EditText senha;
+
+    Button login;
+    Button criarConta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         usuario = findViewById(R.id.editTextUsuario);
         senha = findViewById(R.id.editTextSenha);
 
-        Button login = findViewById(R.id.buttonLogin);
-        Button criarConta = findViewById(R.id.buttonCriarConta);
+        login = findViewById(R.id.buttonLogin);
+        criarConta = findViewById(R.id.buttonCriarConta);
 
         login.setOnClickListener((v) -> {
             String usuarioValue = usuario.getText().toString();
@@ -45,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         criarConta.setOnClickListener((v) -> {
             Intent intent = new Intent(MainActivity.this, CriarConta.class);
             startActivity(intent);
-            Toast.makeText(v.getContext(), "Entrou na tela de cadastro", Toast.LENGTH_LONG).show();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
