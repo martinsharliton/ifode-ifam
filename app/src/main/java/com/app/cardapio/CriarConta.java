@@ -3,6 +3,7 @@ package com.app.cardapio;
 import com.app.cardapio.models.Usuario;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,13 +44,11 @@ public class CriarConta extends AppCompatActivity {
             String senhaValue = senha.getText().toString();
             String confirmarSenhaValue = confirmarSenha.getText().toString();
 
-            if (matriculaValue.isEmpty())
-                matricula.setError("O campo matricula não pode ser vazio");
+            if (matriculaValue.isEmpty()) matricula.setError("O campo matricula não pode ser vazio");
             if (nomeCompletoValue.isEmpty()) nome.setError("O campo nome não pode ser vazio");
             if (emailValue.isEmpty()) email.setError("O campo e-mail não pode ser vazio");
             if (senhaValue.isEmpty()) senha.setError("O campo senha não pode ser vazio");
-            if (confirmarSenhaValue.isEmpty())
-                confirmarSenha.setError("O campo confirmar senha não pode ser vazio");
+            if (confirmarSenhaValue.isEmpty()) confirmarSenha.setError("O campo confirmar senha não pode ser vazio");
 
             if (!matriculaValue.isEmpty() && !nomeCompletoValue.isEmpty() && !emailValue.isEmpty() && !senhaValue.isEmpty() && !confirmarSenhaValue.isEmpty()) {
                 if (senhaValue.equals(confirmarSenhaValue)) {
@@ -58,8 +57,15 @@ public class CriarConta extends AppCompatActivity {
 
                     db.collection("usuario")
                             .add(usuario)
-                            .addOnSuccessListener(documentReference -> Toast.makeText(v.getContext(), "Usuário salvo com sucesso!", Toast.LENGTH_LONG).show())
-                            .addOnFailureListener(e -> Toast.makeText(v.getContext(), "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show());
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(v.getContext(), "Usuário salvo com sucesso!", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(CriarConta.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            })
+                            .addOnFailureListener(e ->
+                                    Toast.makeText(v.getContext(), "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                            );
 
                 } else {
                     senha.setError("As senhas precisam ser idênticas");

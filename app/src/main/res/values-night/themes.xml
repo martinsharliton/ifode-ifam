@@ -1,11 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Cardapio" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Cardapio" parent="Theme.Material3.DayNight">
         <!-- Defina uma cor primária explícita -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorOutline">@color/white</item>
-        <item name="colorOnSurfaceVariant">@color/white</item>
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorPrimaryDark">@color/gray</item>
+        <item name="colorOutline">@color/gray</item>
+        <item name="colorOnSurfaceVariant">@color/gray</item>
     </style>
 
     <style name="WhiteTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

@@ -13,11 +13,21 @@
         android:theme="@style/Theme.Cardapio"
         tools:targetApi="31">
         <activity
+            android:name=".Home"
+            android:exported="false"
+            android:theme="@style/Theme.Cardapio.NoActionBar"
+            android:icon="@drawable/home"
+            android:label="Meu Novo Título" />
+        <activity
             android:name=".CriarConta"
-            android:exported="false" />
+            android:exported="false"
+            android:label="CRIAR CONTA"
+            android:theme="@style/Theme.Cardapio.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="lOGIN"
+            android:theme="@style/Theme.Cardapio.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (!usuarioValue.isEmpty() && !senhaValue.isEmpty()) {
                 Toast.makeText(v.getContext(), "Dados válidos", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, Home.class);
+                startActivity(intent);
             }
         });
 

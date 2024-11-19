@@ -124,7 +124,8 @@
                 android:inputType="textPassword"
                 android:padding="12dp"
                 android:textColor="@color/primary"
-                android:textColorHint="@color/primary" />
+                android:textColorHint="@color/primary"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
