@@ -1,53 +1,50 @@
 package com.app.cardapio;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
 
-import com.app.cardapio.adapter.CardapioAdapter;
-import com.app.cardapio.models.Cardapio;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.app.cardapio.fragment.HomeFragment;
+import com.app.cardapio.fragment.MenuFragment;
+import com.app.cardapio.fragment.ProfileFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Home extends AppCompatActivity {
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        BottomNavigationView navigationBar = findViewById(R.id.navigationBar);
 
-        // Inicialize os dados
-        List<Cardapio> cardapioList = new ArrayList<>();
+        // Carregar a aba Home por padrão
+        loadFragment(new HomeFragment());
 
-        cardapioList.add(new Cardapio("Lasanha e Carne Moída",
-                "Alimentos saudáveis são fundamentais para manter o corpo e a mente funcionando bem.",
-                "Segunda-feira - 11h às 13h",
-                R.drawable.logo_ifam));
+        navigationBar.setOnItemSelectedListener(item -> {
+            Fragment fragment = null;
+            if (item.getItemId() == R.id.home) {
+                fragment = new HomeFragment();
+            } else if (item.getItemId() == R.id.menu) {
+                fragment = new MenuFragment();
+            } else if (item.getItemId() == R.id.profile) {
+                fragment = new ProfileFragment();
+            }
+            return loadFragment(fragment);
+        });
+    }
 
-        cardapioList.add(new Cardapio("Lasanha e Carne Moída",
-                "Alimentos saudáveis são fundamentais para manter o corpo e a mente funcionando bem.",
-                "Terça-feira - 11h às 13h",
-                R.drawable.logo_ifam));
-
-        cardapioList.add(new Cardapio("Lasanha e Carne Moída",
-                "Alimentos saudáveis são fundamentais para manter o corpo e a mente funcionando bem.",
-                "Quarta-feira - 11h às 13h",
-                R.drawable.logo_ifam));
-
-        cardapioList.add(new Cardapio("Lasanha e Carne Moída",
-                "Alimentos saudáveis são fundamentais para manter o corpo e a mente funcionando bem.",
-                "Quinta-feira - 11h às 13h",
-                R.drawable.logo_ifam));
-
-        // Configurar o Adapter
-        CardapioAdapter adapter = new CardapioAdapter(cardapioList);
-        recyclerView.setAdapter(adapter);
-
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 }
