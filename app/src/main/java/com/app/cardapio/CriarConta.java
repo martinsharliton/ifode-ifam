@@ -1,6 +1,9 @@
 package com.app.cardapio;
 
+import com.app.cardapio.enums.TipoPerfil;
+import com.app.cardapio.models.Administrador;
 import com.app.cardapio.models.Aluno;
+import com.app.cardapio.models.Usuario;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Intent;
@@ -43,20 +46,42 @@ public class CriarConta extends AppCompatActivity {
             String emailValue = email.getText().toString();
             String senhaValue = senha.getText().toString();
             String confirmarSenhaValue = confirmarSenha.getText().toString();
+            TipoPerfil perfilSelecionado = TipoPerfil.ALUNO;
 
-            if (matriculaValue.isEmpty()) matricula.setError("O campo matricula não pode ser vazio");
-            if (nomeCompletoValue.isEmpty()) nome.setError("O campo nome não pode ser vazio");
-            if (emailValue.isEmpty()) email.setError("O campo e-mail não pode ser vazio");
-            if (senhaValue.isEmpty()) senha.setError("O campo senha não pode ser vazio");
-            if (confirmarSenhaValue.isEmpty()) confirmarSenha.setError("O campo confirmar senha não pode ser vazio");
+            if (matriculaValue.isEmpty())
+                matricula.setError("O campo matrícula não pode ser vazio");
+            if (nomeCompletoValue.isEmpty())
+                nome.setError("O campo nome não pode ser vazio");
+            if (emailValue.isEmpty())
+                email.setError("O campo e-mail não pode ser vazio");
+            if (senhaValue.isEmpty())
+                senha.setError("O campo senha não pode ser vazio");
+            if (confirmarSenhaValue.isEmpty())
+                confirmarSenha.setError("O campo confirmar senha não pode ser vazio");
 
             if (!matriculaValue.isEmpty() && !nomeCompletoValue.isEmpty() && !emailValue.isEmpty() && !senhaValue.isEmpty() && !confirmarSenhaValue.isEmpty()) {
                 if (senhaValue.equals(confirmarSenhaValue)) {
-                    Aluno aluno = new Aluno(matriculaValue, nomeCompletoValue, emailValue, senhaValue, 1, "Curso de teste", true, 30);
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    db.collection("aluno")
-                            .add(aluno)
+                    Usuario usuario = new Aluno(
+                            matriculaValue,
+                            nomeCompletoValue,
+                            emailValue,
+                            senhaValue,
+                            "99999999",
+                            "Endereço fictício",
+                            "01/01/2000",
+                            true,
+                            TipoPerfil.ALUNO,
+                            "Curso de teste",
+                            20,
+                            5,
+                            8.5,
+                            "15/02/2021"
+                    );
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db.collection(perfilSelecionado.name().toLowerCase())
+                            .add(usuario)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(v.getContext(), "Usuário salvo com sucesso!", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(CriarConta.this, MainActivity.class);
@@ -66,12 +91,13 @@ public class CriarConta extends AppCompatActivity {
                             .addOnFailureListener(e ->
                                     Toast.makeText(v.getContext(), "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show()
                             );
-
                 } else {
                     senha.setError("As senhas precisam ser idênticas");
                     confirmarSenha.setError("As senhas precisam ser idênticas");
                 }
             }
         });
+
+
     }
 }
