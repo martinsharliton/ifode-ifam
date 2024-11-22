@@ -1,6 +1,6 @@
 package com.app.cardapio;
 
-import com.app.cardapio.models.Usuario;
+import com.app.cardapio.models.Aluno;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Intent;
@@ -52,11 +52,11 @@ public class CriarConta extends AppCompatActivity {
 
             if (!matriculaValue.isEmpty() && !nomeCompletoValue.isEmpty() && !emailValue.isEmpty() && !senhaValue.isEmpty() && !confirmarSenhaValue.isEmpty()) {
                 if (senhaValue.equals(confirmarSenhaValue)) {
-                    Usuario usuario = new Usuario(matriculaValue, nomeCompletoValue, emailValue, senhaValue);
+                    Aluno aluno = new Aluno(matriculaValue, nomeCompletoValue, emailValue, senhaValue, 1, "Curso de teste", true, 30);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    db.collection("usuario")
-                            .add(usuario)
+                    db.collection("aluno")
+                            .add(aluno)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(v.getContext(), "Usuário salvo com sucesso!", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(CriarConta.this, MainActivity.class);
