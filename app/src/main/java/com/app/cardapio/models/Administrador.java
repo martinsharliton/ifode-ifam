@@ -2,9 +2,7 @@ package com.app.cardapio.models;
 
 import com.app.cardapio.enums.TipoPerfil;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
 public class Administrador extends Usuario {
 

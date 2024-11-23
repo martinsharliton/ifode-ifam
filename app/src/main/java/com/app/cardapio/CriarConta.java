@@ -20,6 +20,7 @@ public class CriarConta extends AppCompatActivity {
     private EditText matricula;
     private EditText nome;
     private EditText email;
+    private EditText dataNascimento;
     private EditText senha;
     private EditText confirmarSenha;
 
@@ -34,6 +35,7 @@ public class CriarConta extends AppCompatActivity {
         matricula = findViewById(R.id.editTextMatricula);
         nome = findViewById(R.id.editTextNomeCompleto);
         email = findViewById(R.id.editTextEmail);
+        dataNascimento = findViewById(R.id.editTextDataNascimento);
         senha = findViewById(R.id.editTextSenha);
         confirmarSenha = findViewById(R.id.editTextConfirmarSenha);
 
@@ -44,23 +46,20 @@ public class CriarConta extends AppCompatActivity {
             String matriculaValue = matricula.getText().toString();
             String nomeCompletoValue = nome.getText().toString();
             String emailValue = email.getText().toString();
+            String dataNascimentoValue = dataNascimento.getText().toString();
             String senhaValue = senha.getText().toString();
             String confirmarSenhaValue = confirmarSenha.getText().toString();
 
-            TipoPerfil perfilSelecionado = matriculaValue.contains("@ifam.edu.br") ? TipoPerfil.ALUNO : TipoPerfil.ADMINISTRADOR;
+            TipoPerfil perfilSelecionado = matriculaValue.contains("@ifam.edu.br") ? TipoPerfil.ADMINISTRADOR : TipoPerfil.ALUNO;
 
-            if (matriculaValue.isEmpty())
-                matricula.setError("O campo matrícula não pode ser vazio");
-            if (nomeCompletoValue.isEmpty())
-                nome.setError("O campo nome não pode ser vazio");
-            if (emailValue.isEmpty())
-                email.setError("O campo e-mail não pode ser vazio");
-            if (senhaValue.isEmpty())
-                senha.setError("O campo senha não pode ser vazio");
-            if (confirmarSenhaValue.isEmpty())
-                confirmarSenha.setError("O campo confirmar senha não pode ser vazio");
+            if (matriculaValue.isEmpty()) matricula.setError("O campo matrícula não pode ser vazio");
+            if (nomeCompletoValue.isEmpty()) nome.setError("O campo nome não pode ser vazio");
+            if (emailValue.isEmpty()) email.setError("O campo e-mail não pode ser vazio");
+            if (dataNascimentoValue.isEmpty()) dataNascimento.setError("O campo data nascimento não pode ser vazio");
+            if (senhaValue.isEmpty()) senha.setError("O campo senha não pode ser vazio");
+            if (confirmarSenhaValue.isEmpty()) confirmarSenha.setError("O campo confirmar senha não pode ser vazio");
 
-            if (!matriculaValue.isEmpty() && !nomeCompletoValue.isEmpty() && !emailValue.isEmpty() && !senhaValue.isEmpty() && !confirmarSenhaValue.isEmpty()) {
+            if (!matriculaValue.isEmpty() && !nomeCompletoValue.isEmpty() && !emailValue.isEmpty() && !dataNascimentoValue.isEmpty() && !senhaValue.isEmpty() && !confirmarSenhaValue.isEmpty()) {
                 if (senhaValue.equals(confirmarSenhaValue)) {
                     Usuario usuario;
 
@@ -70,7 +69,7 @@ public class CriarConta extends AppCompatActivity {
                                 nomeCompletoValue,
                                 emailValue,
                                 senhaValue,
-                                "01/01/2000",
+                                dataNascimentoValue,
                                 true,
                                 TipoPerfil.ALUNO,
                                 "Curso de teste",
@@ -83,7 +82,7 @@ public class CriarConta extends AppCompatActivity {
                                 nomeCompletoValue,
                                 emailValue,
                                 senhaValue,
-                                "01/01/2000",
+                                dataNascimentoValue,
                                 true,
                                 TipoPerfil.ADMINISTRADOR
                         );
