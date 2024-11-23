@@ -11,4 +11,7 @@
     <string name="cadastrar_se">Cadastrar-se</string>
     <string name="crie_nsua_conta">Crie\nsua Conta!</string>
     <string name="descricao_image">descricao_image</string>
+    <string name="telefone">Telefone</string>
+    <string name="data_de_nascimento">Data de Nascimento</string>
+    <string name="notifica_es">Notificações</string>
 </resources>

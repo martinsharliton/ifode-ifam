@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:icon="@drawable/home"
+        android:icon="@drawable/ic_home"
         android:title="Home" />
     <item
         android:id="@+id/menu"
@@ -9,6 +9,6 @@
         android:title="Menu" />
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/home"
+        android:icon="@drawable/ic_person"
         android:title="Perfil" />
 </menu>

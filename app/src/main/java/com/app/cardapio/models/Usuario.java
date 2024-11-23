@@ -13,9 +13,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
-    private String telefone;
-    private String endereco;
     private String dataNascimento;
     private boolean ativo;
-    private TipoPerfil tipoPerfil; // Novo campo
+    private TipoPerfil tipoPerfil;
 }

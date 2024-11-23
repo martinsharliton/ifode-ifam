@@ -46,7 +46,8 @@ public class CriarConta extends AppCompatActivity {
             String emailValue = email.getText().toString();
             String senhaValue = senha.getText().toString();
             String confirmarSenhaValue = confirmarSenha.getText().toString();
-            TipoPerfil perfilSelecionado = TipoPerfil.ALUNO;
+
+            TipoPerfil perfilSelecionado = matriculaValue.contains("@ifam.edu.br") ? TipoPerfil.ALUNO : TipoPerfil.ADMINISTRADOR;
 
             if (matriculaValue.isEmpty())
                 matricula.setError("O campo matrícula não pode ser vazio");
@@ -61,23 +62,32 @@ public class CriarConta extends AppCompatActivity {
 
             if (!matriculaValue.isEmpty() && !nomeCompletoValue.isEmpty() && !emailValue.isEmpty() && !senhaValue.isEmpty() && !confirmarSenhaValue.isEmpty()) {
                 if (senhaValue.equals(confirmarSenhaValue)) {
+                    Usuario usuario;
 
-                    Usuario usuario = new Aluno(
-                            matriculaValue,
-                            nomeCompletoValue,
-                            emailValue,
-                            senhaValue,
-                            "99999999",
-                            "Endereço fictício",
-                            "01/01/2000",
-                            true,
-                            TipoPerfil.ALUNO,
-                            "Curso de teste",
-                            20,
-                            5,
-                            8.5,
-                            "15/02/2021"
-                    );
+                    if (perfilSelecionado == TipoPerfil.ALUNO) {
+                        usuario = new Aluno(
+                                matriculaValue,
+                                nomeCompletoValue,
+                                emailValue,
+                                senhaValue,
+                                "01/01/2000",
+                                true,
+                                TipoPerfil.ALUNO,
+                                "Curso de teste",
+                                20
+
+                        );
+                    } else {
+                        usuario = new Administrador(
+                                matriculaValue,
+                                nomeCompletoValue,
+                                emailValue,
+                                senhaValue,
+                                "01/01/2000",
+                                true,
+                                TipoPerfil.ADMINISTRADOR
+                        );
+                    }
 
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     db.collection(perfilSelecionado.name().toLowerCase())
@@ -97,6 +107,7 @@ public class CriarConta extends AppCompatActivity {
                 }
             }
         });
+
 
 
     }
