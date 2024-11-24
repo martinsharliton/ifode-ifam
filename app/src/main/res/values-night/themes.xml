@@ -8,6 +8,11 @@
         <item name="colorOnSurfaceVariant">@color/gray</item>
     </style>
 
+    <style name="CircleImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="WhiteTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/white</item>
         <item name="android:editTextColor">@color/white</item>

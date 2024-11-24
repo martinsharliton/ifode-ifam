@@ -28,13 +28,12 @@ public class HomeFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Lista de itens do cardápio
         List<Cardapio> cardapioList = new ArrayList<>();
         cardapioList.add(new Cardapio("Lasanha e Carne Moída", "Alimentos saudáveis são fundamentais.", "Segunda-feira - 11h às 13h", R.drawable.logo_ifam));
-        cardapioList.add(new Cardapio("Frango Assado", "Nutrição balanceada para o dia.", "Terça-feira - 11h às 13h", R.drawable.logo_ifam));
+        cardapioList.add(new Cardapio("Frango Assado", "Nutrição balanceada para o dia.", "Terça-feira - 11h às 13h", R.drawable.dioneco));
         cardapioList.add(new Cardapio("Peixe Grelhado", "Refeição leve e saudável.", "Quarta-feira - 11h às 13h", R.drawable.logo_ifam));
+        cardapioList.add(new Cardapio("Frango Assado", "Nutrição balanceada para o dia.", "Quinta-feira - 11h às 13h", R.drawable.dioneco));
 
-        // Configurar o Adapter
         CardapioAdapter adapter = new CardapioAdapter(cardapioList);
         recyclerView.setAdapter(adapter);
 

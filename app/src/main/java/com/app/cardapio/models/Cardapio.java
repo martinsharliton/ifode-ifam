@@ -13,4 +13,3 @@ public class Cardapio {
     private String horario;
     private int idImagem;
 }
-

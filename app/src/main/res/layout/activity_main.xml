@@ -79,6 +79,7 @@
                     android:id="@+id/editTextSenha"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    android:drawableEnd="@drawable/ic_senha_off"
                     android:hint="@string/senha"
                     android:inputType="textPassword"
                     android:padding="12dp"
@@ -90,7 +91,7 @@
                 android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30sp"
                 android:layout_marginBottom="15dp"
                 android:backgroundTint="@color/green_accent"
                 android:padding="15dp"
@@ -121,6 +122,7 @@
 
             <Button
                 android:id="@+id/buttonCriarConta"
+                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"

@@ -19,21 +19,17 @@ public class CardapioAdapter extends RecyclerView.Adapter<CardapioAdapter.Cardap
 
     private final List<Cardapio> itemList;
 
-    // Construtor
     public CardapioAdapter(List<Cardapio> itemList) {
         this.itemList = itemList;
     }
 
-    // Cria a ViewHolder
     @NonNull
     @Override
     public CardapioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_cardapio, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardapio, parent, false);
         return new CardapioViewHolder(itemView);
     }
 
-    // Popula os dados na ViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardapioViewHolder holder, int position) {
         Cardapio item = itemList.get(position);
@@ -48,9 +44,7 @@ public class CardapioAdapter extends RecyclerView.Adapter<CardapioAdapter.Cardap
         return itemList.size();
     }
 
-    // ViewHolder
     public static class CardapioViewHolder extends RecyclerView.ViewHolder {
-
         public TextView titulo, descricao, horario;
         public ImageView imagem;
         public Button avaliarRestauranteButton;

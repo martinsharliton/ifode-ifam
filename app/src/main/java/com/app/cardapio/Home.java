@@ -21,7 +21,6 @@ public class Home extends AppCompatActivity {
 
         BottomNavigationView navigationBar = findViewById(R.id.navigationBar);
 
-        // Carregar a aba Home por padrão
         loadFragment(new HomeFragment());
 
         navigationBar.setOnItemSelectedListener(item -> {
