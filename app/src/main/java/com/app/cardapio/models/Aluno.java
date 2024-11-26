@@ -1,18 +1,17 @@
 package com.app.cardapio.models;
 
-import com.app.cardapio.enums.TipoPerfil;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class Aluno extends Usuario {
+public class Aluno{
+    private String matricula;
+    private String nome;
+    private String email;
     private String curso;
-    private int qtdCreditos;
-
-    public Aluno(String matricula, String nome, String email, String senha, String dataNascimento, boolean ativo, TipoPerfil tipoPerfil, String curso, int qtdCreditos) {
-        super(matricula, nome, email, senha, dataNascimento, ativo, tipoPerfil);
-        this.curso = curso;
-        this.qtdCreditos = qtdCreditos;
-    }
+    private int qtd_creditos;
+    private boolean status_matricula;
+    private String usuario;
+    private String Campus;
 }

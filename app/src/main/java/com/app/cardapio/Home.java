@@ -29,7 +29,7 @@ public class Home extends AppCompatActivity {
             if (item.getItemId() == R.id.home) {
                 fragment = new HomeFragment();
             } else if (item.getItemId() == R.id.menu) {
-                fragment = new MenuFragment();
+                fragment = new CarteiraFragment();
             } else if (item.getItemId() == R.id.profile) {
                 fragment = new ProfileFragment();
             }

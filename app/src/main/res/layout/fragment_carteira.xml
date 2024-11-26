@@ -8,25 +8,23 @@
     tools:context=".fragment.CarteiraFragment">
 
     <TextView
-        android:id="@+id/profileName"
+        android:id="@+id/profileNamecard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/poppins_extrabold"
-        android:text="Dioneco"
         android:textAlignment="center"
         android:textColor="@color/primary"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.285" />
 
     <TextView
-        android:id="@+id/nomeCampus"
+        android:id="@+id/nomeCampuscard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -49,7 +47,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/poppins"
-        android:text="teste"
+        android:text="INSTITUTO FEDERAL DO AMAZONAS"
         android:textAlignment="viewStart"
         android:textColor="@color/primary"
         android:textSize="12sp"
@@ -61,7 +59,7 @@
         app:layout_constraintVertical_bias="0.354" />
 
     <TextView
-        android:id="@+id/statusMatricula"
+        android:id="@+id/statusMatriculacard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -78,7 +76,7 @@
         app:layout_constraintVertical_bias="0.497" />
 
     <TextView
-        android:id="@+id/numeroMatricula"
+        android:id="@+id/numeroMatriculacard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -95,7 +93,7 @@
         app:layout_constraintVertical_bias="0.534" />
 
     <TextView
-        android:id="@+id/nomeCurso"
+        android:id="@+id/nomeCursocard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
