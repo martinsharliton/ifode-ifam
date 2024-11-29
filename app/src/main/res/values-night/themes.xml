@@ -13,6 +13,11 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="RatingBarStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@color/primary</item>
+    </style>
+
     <style name="WhiteTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/white</item>
         <item name="android:editTextColor">@color/white</item>

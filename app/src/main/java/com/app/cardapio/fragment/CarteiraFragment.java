@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.app.cardapio.R;
-import com.app.cardapio.models.Alunoauth;
+import com.app.cardapio.models.AlunoAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -44,7 +44,7 @@ public class CarteiraFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Obtendo o ID do aluno (usado para recuperar os dados)
-        String userId = Alunoauth.getInstance().getDocumentId();
+        String userId = AlunoAuth.getInstance().getDocumentId();
 
         DocumentReference alunoRef = db.collection("aluno").document(userId);
 

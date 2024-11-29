@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.app.cardapio.models.Alunoauth;
+import com.app.cardapio.models.AlunoAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         String senhaArmazenada = document.getString("senha");
                         if (senhaArmazenada != null && senhaArmazenada.equals(senha)) {
                             String documentId = document.getId();
-                            Alunoauth.getInstance().setDocumentId(documentId);
+                            AlunoAuth.getInstance().setDocumentId(documentId);
                             Toast.makeText(this, "Bem-vindo, Aluno!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(this, Home.class));
                             finish();
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         String senhaArmazenada = document.getString("senha");
                         if (senhaArmazenada != null && senhaArmazenada.equals(senha)) {
                             String documentId = document.getId();
-                            Alunoauth.getInstance().setDocumentId(documentId);
+                            AlunoAuth.getInstance().setDocumentId(documentId);
                             Toast.makeText(this, "Bem-vindo, Administrador!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(this, Home.class));
                             finish();

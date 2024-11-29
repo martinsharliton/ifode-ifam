@@ -12,25 +12,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cardapio"
         tools:targetApi="31">
+
+        <activity
+            android:name=".SatisfacaoUsuario"
+            android:theme="@style/Theme.Cardapio.NoActionBar" />
         <activity
             android:name=".Home"
             android:exported="false"
-            android:theme="@style/Theme.Cardapio.NoActionBar"
             android:icon="@drawable/home"
-            android:label="Meu Novo Título" />
-        <activity
-            android:name=".CriarConta"
-            android:exported="false"
-            android:label="CRIAR CONTA"
+            android:label="Meu Novo Título"
             android:theme="@style/Theme.Cardapio.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="lOGIN"
+            android:label="LOGIN"
             android:theme="@style/Theme.Cardapio.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

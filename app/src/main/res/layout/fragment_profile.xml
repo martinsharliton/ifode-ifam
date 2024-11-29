@@ -4,7 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="8dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,23 +21,23 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginBottom="30dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="24dp"
             android:contentDescription="Profile Picture"
-            android:src="@drawable/dioneco"
+            android:src="@drawable/user_app"
             app:shapeAppearanceOverlay="@style/CircleImage"
             app:strokeColor="@color/primary"
-            app:strokeWidth="1dp"
-            android:scaleType="centerCrop" />
-
+            app:strokeWidth="1dp" />
 
         <TextView
             android:id="@+id/profileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30sp"
-            android:fontFamily="@font/poppins_extrabold"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/poppins_bold"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="4dp"
             android:text="RAIMUNDO DIONECO ÁLVARO DE ARAÚJO"
             android:textAlignment="center"
             android:textColor="@color/primary"
@@ -49,101 +49,54 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <LinearLayout
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/opcaoAlterarDados"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:minHeight="48dp"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:icon="@drawable/ic_editar"
+                app:iconGravity="start"
+                android:text="Alterar dados"
+                android:textColor="@color/black"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1dp" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="Editar dados"
-                    android:src="@drawable/ic_editar"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/poppins"
-                    android:text="Alterar dados"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height=".9dp"
-                android:background="@color/primary" />
-
-            <LinearLayout
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/opcaoAlterarTema"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:minHeight="48dp"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:icon="@drawable/ic_tema_claro"
+                app:iconGravity="start"
+                android:iconTint="@color/primary"
+                android:text="Alterar tema"
+                android:textColor="@color/black"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1dp" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="Alterar tema"
-                    android:src="@drawable/ic_tema_claro"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/poppins"
-                    android:text="Alterar tema"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height=".9dp"
-                android:background="@color/primary" />
-
-            <LinearLayout
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/opcaoSair"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:minHeight="48dp"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="Sair"
-                    android:src="@drawable/ic_sair_app"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/poppins"
-                    android:text="Sair"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:icon="@drawable/ic_sair_app"
+                app:iconGravity="start"
+                android:iconTint="@color/primary"
+                android:text="Sair"
+                android:textColor="@color/black"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1dp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

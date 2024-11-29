@@ -1,23 +1,21 @@
 package com.app.cardapio.models;
 
-public class Alunoauth {
-    private static Alunoauth instance;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+public class AlunoAuth {
+    private static AlunoAuth instance;
     private String documentId;
 
-    private Alunoauth() { }
+    private AlunoAuth() { }
 
-    public static Alunoauth getInstance() {
+    public static AlunoAuth getInstance() {
         if (instance == null) {
-            instance = new Alunoauth();
+            instance = new AlunoAuth();
         }
         return instance;
     }
 
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
 }

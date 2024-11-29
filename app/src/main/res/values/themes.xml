@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/gray</item>
         <item name="colorPrimaryDark">@color/gray</item>
         <item name="colorOutline">@color/gray</item>
+
         <item name="colorOnSurfaceVariant">@color/gray</item>
     </style>
 
@@ -23,6 +24,10 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="RatingBarStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@color/primary</item>
+    </style>
 
     <style name="WhiteTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:statusBarColor">@color/primary</item>
