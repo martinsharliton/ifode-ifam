@@ -1,5 +1,6 @@
 package com.app.cardapio.fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,12 +24,16 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 
+import java.util.Objects;
+
 
 public class CarteiraFragment extends Fragment {
 
     private TextView tvNome,tvMatricula,tvCurso,tvCampus;
     private ImageView imageQrcode;
+    String userId;
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,7 +74,7 @@ public class CarteiraFragment extends Fragment {
                 }
             } else {
                 // Caso ocorra um erro na busca
-                Toast.makeText(getActivity(), "Erro ao buscar dados: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Erro ao buscar dados: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

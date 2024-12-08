@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             String senhaValue = senha.getText().toString().trim();
 
             if (usuarioValue.isEmpty()) {
-                usuario.setError("O campo usuário não pode ser vazio");
+                usuario.setError("teste "+ AlunoAuth.getInstance().getDocumentId());
                 return;
             }
             if (senhaValue.isEmpty()) {
