@@ -1,8 +1,10 @@
 package com.app.cardapio;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +21,16 @@ import java.util.Map;
 public class SatisfacaoUsuario extends AppCompatActivity {
     private FirebaseFirestore db;
 
-    private final int[] questionIds = {
-            R.id.radioGroup1,
-            R.id.radioGroup2,
-            R.id.radioGroup3,
-            R.id.radioGroup4
+    // IDs dos layouts das perguntas
+    private final int[] layoutIds = {
+            R.id.layoutQuestion1,
+            R.id.layoutQuestion2,
+            R.id.layoutQuestion3,
+            R.id.layoutQuestion4
     };
+
+    // Mapa para armazenar as respostas selecionadas
+    private final Map<String, Integer> respostas = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,60 +39,66 @@ public class SatisfacaoUsuario extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        setupImageClickListeners();
+
         findViewById(R.id.buttonCadastrar).setOnClickListener(v -> saveFeedback());
     }
 
+    private void setupImageClickListeners() {
+        // Configura os cliques nas imagens para cada pergunta
+        for (int i = 0; i < layoutIds.length; i++) {
+            int questionNumber = i + 1;
+            LinearLayout layout = findViewById(layoutIds[i]);
+
+            for (int j = 0; j < layout.getChildCount(); j++) {
+                ImageView imageView = (ImageView) layout.getChildAt(j);
+                final int selectedValue = j + 1; // Valores de 1 a 5
+
+                imageView.setOnClickListener(v -> {
+                    resetSelection(layout); // Remove a seleção anterior
+                    imageView.setBackgroundResource(R.drawable.selected_background); // Aplica efeito visual
+                    respostas.put("questoes" + questionNumber, selectedValue);
+                });
+            }
+        }
+    }
+
+    private void resetSelection(LinearLayout layout) {
+        // Remove o fundo selecionado de todas as imagens
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            layout.getChildAt(i).setBackground(null);
+        }
+    }
+
     private void saveFeedback() {
-        Map<String, Object> feedback = new HashMap<>();
-
         try {
-
-            Map<String, Integer> respostas = new HashMap<>();
-            for (int i = 0; i < questionIds.length; i++) {
-                String questionKey = "questoes" + (i + 1);
-                respostas.put(questionKey, getSelectedOption(questionIds[i]));
+            // Verifica se todas as perguntas foram respondidas
+            for (int i = 1; i <= layoutIds.length; i++) {
+                if (!respostas.containsKey("questoes" + i)) {
+                    throw new IllegalStateException("Por favor, responda a pergunta: " + i);
+                }
             }
 
+            Map<String, Object> feedback = new HashMap<>();
             feedback.put("respostas", respostas);
             feedback.put("dataEnvio", obterHorarioEnvio());
             feedback.put("idUsuario", obterIdUsuario());
 
             db.collection("pesquisas")
                     .add(feedback)
-                    .addOnSuccessListener(documentReference ->
-                            Toast.makeText(SatisfacaoUsuario.this, "Feedback enviado com sucesso!", Toast.LENGTH_SHORT).show()
-                    )
-                    .addOnFailureListener(e ->
-                            Toast.makeText(SatisfacaoUsuario.this, "Erro ao salvar o feedback: " + e.getMessage(), Toast.LENGTH_SHORT).show()
-                    );
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(SatisfacaoUsuario.this, "Feedback enviado com sucesso!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, Home.class));
+                        finish();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(SatisfacaoUsuario.this, "Erro ao salvar o feedback: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, Home.class));
+                        finish();
+                    });
         } catch (IllegalStateException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private int getSelectedOption(int radioGroupId) throws IllegalStateException {
-        RadioGroup radioGroup = findViewById(radioGroupId);
-        int selectedId = radioGroup.getCheckedRadioButtonId();
-
-        if (selectedId == -1) {
-            String questionName = getResources().getResourceEntryName(radioGroupId);
-            throw new IllegalStateException("Por favor, responda a pergunta: " + questionName.replace("radioGroup", ""));
-        }
-
-        int[] buttonIds = {
-                R.id.radio1_1, R.id.radio1_2, R.id.radio1_3, R.id.radio1_4, R.id.radio1_5,
-                R.id.radio2_1, R.id.radio2_2, R.id.radio2_3, R.id.radio2_4, R.id.radio2_5,
-                R.id.radio3_1, R.id.radio3_2, R.id.radio3_3, R.id.radio3_4, R.id.radio3_5,
-                R.id.radio4_1, R.id.radio4_2, R.id.radio4_3, R.id.radio4_4, R.id.radio4_5
-        };
-
-        for (int i = 0; i < buttonIds.length; i++) {
-            if (selectedId == buttonIds[i]) {
-                return (i % 5) + 1;
-            }
-        }
-
-        throw new IllegalStateException("Opção inválida.");
     }
 
     private String obterHorarioEnvio() {
