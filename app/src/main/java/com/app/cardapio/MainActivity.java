@@ -1,11 +1,7 @@
 package com.app.cardapio;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,9 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText usuario;
     private EditText senha;
     private Button login;
-    private boolean senhaVisivel = false;
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             String senhaValue = senha.getText().toString().trim();
 
             if (usuarioValue.isEmpty()) {
-                usuario.setError("teste " + AlunoAuth.getInstance().getDocumentId());
+                usuario.setError("O campo usuário não pode ser vazio");
                 return;
             }
             if (senhaValue.isEmpty()) {
@@ -48,22 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            verificarAluno(usuarioValue, senhaValue);
-        });
-
-        senha.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Verifica se o evento foi na área do drawableEnd
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Drawable drawableEnd = senha.getCompoundDrawablesRelative()[2]; // DrawableEnd
-                    if (drawableEnd != null && event.getRawX() >= (senha.getRight() - drawableEnd.getBounds().width())) {
-                        toggleSenhaVisibilidade();
-                        return true; // Consumiu o evento
-                    }
-                }
-                return false;
-            }
+           verificarAluno(usuarioValue, senhaValue);
+            verificarAdministrador(usuarioValue, senhaValue);
         });
     }
 
@@ -107,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             String documentId = document.getId();
                             AlunoAuth.getInstance().setDocumentId(documentId);
                             Toast.makeText(this, "Bem-vindo, Administrador!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(this, Home.class));
+                            startActivity(new Intent(this, homeAdm.class));
                             finish();
                         } else {
                             Toast.makeText(this, "Usuário ou senha incorretos. [ADMINISTRADOR]", Toast.LENGTH_LONG).show();
@@ -119,21 +99,5 @@ public class MainActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_LONG).show();
                 });
-    }
-
-    private void toggleSenhaVisibilidade() {
-        if (senhaVisivel) {
-            // Muda para senha oculta
-            senha.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            senha.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_senha_off, 0);
-        } else {
-            // Muda para senha visível
-            senha.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            senha.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_senha_on, 0);
-        }
-        senhaVisivel = !senhaVisivel;
-
-        // Move o cursor para o final
-        senha.setSelection(senha.getText().length());
     }
 }
