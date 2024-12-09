@@ -1,18 +1,42 @@
 package com.app.cardapio;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.app.cardapio.models.AlunoAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 public class SatisfacaoUsuario extends AppCompatActivity {
+    private FirebaseFirestore db;
+
+    // IDs dos layouts das perguntas
+    private final int[] layoutIds = {
+            R.id.layoutQuestion1,
+            R.id.layoutQuestion2,
+            R.id.layoutQuestion3,
+            R.id.layoutQuestion4
+    };
+
+    // Mapa para armazenar as respostas selecionadas
+    private final Map<String, Integer> respostas = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_satisfacao_usuario);
-      
+
         db = FirebaseFirestore.getInstance();
 
         setupImageClickListeners();

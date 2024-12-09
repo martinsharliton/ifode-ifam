@@ -27,7 +27,7 @@ import com.google.zxing.common.BitMatrix;
 public class CarteiraFragment extends Fragment {
 
     private TextView tvNome,tvMatricula,tvCurso,tvCampus;
-    private ImageView imageQrcode;
+    ImageView imageQrcode;
 
     @Nullable
     @Override
@@ -75,10 +75,8 @@ public class CarteiraFragment extends Fragment {
 
 
         // Dados para o QR Code (substitua por seus dados)
-        String text = userId;
-
         try {
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, 300, 300);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(userId, BarcodeFormat.QR_CODE, 300, 300);
             Bitmap bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
             for (int x = 0; x < 300; x++) {
                 for (int y = 0; y < 300; y++) {

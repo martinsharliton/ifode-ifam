@@ -1,10 +1,14 @@
 package com.app.cardapio;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.graphics.drawable.Drawable;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText usuario;
     private EditText senha;
     private Button login;
+    private boolean senhaVisivel = false;
+
+    @SuppressLint("ClickableViewAccessibility")
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +49,22 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-           verificarAluno(usuarioValue, senhaValue);
-            verificarAdministrador(usuarioValue, senhaValue);
+            verificarAluno(usuarioValue, senhaValue);
+        });
+
+        senha.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Verifica se o evento foi na área do drawableEnd
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Drawable drawableEnd = senha.getCompoundDrawablesRelative()[2]; // DrawableEnd
+                    if (drawableEnd != null && event.getRawX() >= (senha.getRight() - drawableEnd.getBounds().width())) {
+                        toggleSenhaVisibilidade();
+                        return true; // Consumiu o evento
+                    }
+                }
+                return false;
+            }
         });
     }
 
@@ -99,5 +120,21 @@ public class MainActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_LONG).show();
                 });
+    }
+
+    private void toggleSenhaVisibilidade() {
+        if (senhaVisivel) {
+            // Muda para senha oculta
+            senha.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            senha.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_senha_off, 0);
+        } else {
+            // Muda para senha visível
+            senha.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            senha.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_senha_on, 0);
+        }
+        senhaVisivel = !senhaVisivel;
+
+        // Move o cursor para o final
+        senha.setSelection(senha.getText().length());
     }
 }

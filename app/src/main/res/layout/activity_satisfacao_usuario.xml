@@ -1,13 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F3F3"
+    android:background="@color/gray"
     android:padding="16dp"
     tools:context=".SatisfacaoUsuario">
 
+    <!-- Header -->
     <TextView
         android:id="@+id/tvHeader"
         android:layout_width="wrap_content"
@@ -17,10 +19,10 @@
         android:text="Pesquisa"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- CardView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewQuestions"
         android:layout_width="0dp"
@@ -42,442 +44,172 @@
 
             <!-- Pergunta 1 -->
             <TextView
-                android:id="@+id/tvQuestion1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="O tempo de Atendimento foi satisfatório"
-                android:textAlignment="center" />
+                style="@style/QuestionStyle"
+                android:layout_marginBottom="15dp"
+                android:text="O tempo de Atendimento foi satisfatório" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/layoutQuestion1"
+                style="@style/EmocardContainerStyle">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/emocard1_1"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_1" />
 
-                    <ImageView
-                        android:id="@+id/emocard1_1"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_1" />
+                <ImageView
+                    android:id="@+id/emocard1_2"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_2" />
 
-                    <RadioButton
-                        android:id="@+id/radio1_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/primary" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/emocard1_3"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_3" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/emocard1_4"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_4" />
 
-                    <ImageView
-                        android:id="@+id/emocard1_2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_2" />
-
-                    <RadioButton
-                        android:id="@+id/radio1_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard1_3"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_3" />
-
-                    <RadioButton
-                        android:id="@+id/radio1_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard1_4"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_4" />
-
-                    <RadioButton
-                        android:id="@+id/radio1_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard1_5"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_5" />
-
-                    <RadioButton
-                        android:id="@+id/radio1_5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </RadioGroup>
+                <ImageView
+                    android:id="@+id/emocard1_5"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_5" />
+            </LinearLayout>
 
             <!-- Pergunta 2 -->
             <TextView
-                android:id="@+id/tvQuestion2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="A qualidade da comida foi satisfatória"
-                android:textAlignment="center" />
+                style="@style/QuestionStyle"
+                android:layout_marginBottom="15dp"
+                android:text="A qualidade da comida foi satisfatória" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/layoutQuestion2"
+                style="@style/EmocardContainerStyle">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/emocard2_1"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_1" />
 
-                    <ImageView
-                        android:id="@+id/emocard2_1"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_1" />
+                <ImageView
+                    android:id="@+id/emocard2_2"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_2" />
 
-                    <RadioButton
-                        android:id="@+id/radio2_1"
-                        android:foregroundTint="@color/primary"
-                        android:backgroundTint="@color/red"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/emocard2_3"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_3" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/emocard2_4"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_4" />
 
-                    <ImageView
-                        android:id="@+id/emocard2_2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_2" />
-
-                    <RadioButton
-                        android:id="@+id/radio2_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard2_3"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_3" />
-
-                    <RadioButton
-                        android:id="@+id/radio2_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard2_4"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_4" />
-
-                    <RadioButton
-                        android:id="@+id/radio2_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard2_5"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_5" />
-
-                    <RadioButton
-                        android:id="@+id/radio2_5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </RadioGroup>
+                <ImageView
+                    android:id="@+id/emocard2_5"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_5" />
+            </LinearLayout>
 
             <!-- Pergunta 3 -->
             <TextView
-                android:id="@+id/tvQuestion3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="O ambiente do restaurante é agradável e confortável"
-                android:textAlignment="center" />
+                style="@style/QuestionStyle"
+                android:layout_marginBottom="15dp"
+                android:text="O ambiente do restaurante é agradável e confortável" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/layoutQuestion3"
+                style="@style/EmocardContainerStyle">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/emocard3_1"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_1" />
 
-                    <ImageView
-                        android:id="@+id/emocard3_1"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_1" />
+                <ImageView
+                    android:id="@+id/emocard3_2"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_2" />
 
-                    <RadioButton
-                        android:id="@+id/radio3_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/emocard3_3"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_3" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/emocard3_4"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_4" />
 
-                    <ImageView
-                        android:id="@+id/emocard3_2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_2" />
-
-                    <RadioButton
-                        android:id="@+id/radio3_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard3_3"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_3" />
-
-                    <RadioButton
-                        android:id="@+id/radio3_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard3_4"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_4" />
-
-                    <RadioButton
-                        android:id="@+id/radio3_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard3_5"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_5" />
-
-                    <RadioButton
-                        android:id="@+id/radio3_5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </RadioGroup>
+                <ImageView
+                    android:id="@+id/emocard3_5"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_5" />
+            </LinearLayout>
 
             <!-- Pergunta 4 -->
             <TextView
-                android:id="@+id/tvQuestion4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="A qualidade do atendimento no restaurante é satisfatória"
-                android:textAlignment="center" />
+                style="@style/QuestionStyle"
+                android:layout_marginBottom="15dp"
+                android:text="A qualidade do atendimento no restaurante é satisfatória" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/layoutQuestion4"
+                style="@style/EmocardContainerStyle">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/emocard4_1"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_1" />
 
-                    <ImageView
-                        android:id="@+id/emocard4_1"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_1" />
+                <ImageView
+                    android:id="@+id/emocard4_2"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_2" />
 
-                    <RadioButton
-                        android:id="@+id/radio4_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/emocard4_3"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_3" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/emocard4_4"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_4" />
 
-                    <ImageView
-                        android:id="@+id/emocard4_2"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_2" />
-
-                    <RadioButton
-                        android:id="@+id/radio4_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard4_3"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_3" />
-
-                    <RadioButton
-                        android:id="@+id/radio4_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard4_4"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_4" />
-
-                    <RadioButton
-                        android:id="@+id/radio4_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/emocard4_5"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/emocards_5" />
-
-                    <RadioButton
-                        android:id="@+id/radio4_5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </RadioGroup>
+                <ImageView
+                    android:id="@+id/emocard4_5"
+                    style="@style/EmocardStyle"
+                    android:contentDescription="@string/emocard"
+                    android:src="@drawable/emocards_5" />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- Botão Enviar -->
     <Button
         android:id="@+id/buttonCadastrar"
         android:layout_width="0dp"
@@ -490,4 +222,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
