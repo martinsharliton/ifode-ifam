@@ -102,7 +102,7 @@ public class SatisfacaoUsuario extends AppCompatActivity {
     }
 
     private String obterHorarioEnvio() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", new Locale("pt", "BR"));
         return sdf.format(new Date());
     }
 
