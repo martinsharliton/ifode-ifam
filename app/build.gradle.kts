@@ -45,7 +45,9 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.projectlombok.lombok)
     annotationProcessor(libs.projectlombok.lombok)
-    implementation ("com.google.zxing:core:3.5.2")
+    implementation("com.google.zxing:core:3.5.2")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
 }
