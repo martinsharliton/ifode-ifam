@@ -2,13 +2,9 @@
     <item
         android:id="@+id/home"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="Cardápio" />
     <item
         android:id="@+id/menu"
         android:icon="@drawable/ic_card"
-        android:title="Carteirinha" />
-    <item
-        android:id="@+id/profile"
-        android:icon="@drawable/ic_person"
-        android:title="Perfil" />
+        android:title="Carteira" />
 </menu>

@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                             String documentId = document.getId();
                             AlunoAuth.getInstance().setDocumentId(documentId);
                             Toast.makeText(this, "Bem-vindo, Administrador!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(this, homeAdm.class));
+                            startActivity(new Intent(this, HomeAdm.class));
                             finish();
                         } else {
                             Toast.makeText(this, "Usuário ou senha incorretos. [ADMINISTRADOR]", Toast.LENGTH_LONG).show();

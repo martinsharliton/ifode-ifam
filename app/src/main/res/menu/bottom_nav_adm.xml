@@ -1,18 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/cardapio2"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="Cardápio" />
     <item
-        android:id="@+id/statistic"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="Relatorio" />
-    <item
-        android:id="@+id/menu"
+        android:id="@+id/leitorCarteira"
         android:icon="@drawable/ic_card"
-        android:title="Carteirinha" />
+        android:title="Leitor Carteira" />
     <item
-        android:id="@+id/profile"
+        android:id="@+id/estatisticas"
         android:icon="@drawable/ic_person"
-        android:title="Perfil" />
+        android:title="Relatórios" />
 </menu>

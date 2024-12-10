@@ -10,31 +10,34 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.app.cardapio.fragment.CarteiraFragment;
+import com.app.cardapio.fragment.HomeAdmFragment;
 import com.app.cardapio.fragment.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class Home extends AppCompatActivity {
+public class HomeAdm extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_adm);
 
         // Configura o Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar2 = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar2);
 
-        BottomNavigationView navigationBar = findViewById(R.id.navigationBar);
+        BottomNavigationView navigationBar2 = findViewById(R.id.navigationBar2);
 
         // Carrega o fragment inicial
-        loadFragment(new HomeFragment());
+        loadFragment(new HomeAdmFragment());
 
-        navigationBar.setOnItemSelectedListener(item -> {
+        navigationBar2.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
-            if (item.getItemId() == R.id.home) {
-                fragment = new HomeFragment();
-            } else if (item.getItemId() == R.id.menu) {
-                fragment = new CarteiraFragment();
+            if (item.getItemId() == R.id.leitorCarteira) {
+                fragment = new HomeAdmFragment();
+            } else if (item.getItemId() == R.id.cardapio2) {
+                fragment = new HomeAdmFragment();
+            } else if (item.getItemId() == R.id.estatisticas) {
+                fragment = new HomeAdmFragment();
             }
             return loadFragment(fragment);
         });
@@ -44,7 +47,7 @@ public class Home extends AppCompatActivity {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragmentContainer, fragment)
+                    .replace(R.id.fragmentContainer2, fragment)
                     .commit();
             return true;
         }
