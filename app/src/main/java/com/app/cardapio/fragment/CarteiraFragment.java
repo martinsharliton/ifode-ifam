@@ -30,8 +30,8 @@ import java.util.Objects;
 
 public class CarteiraFragment extends Fragment {
 
-    private TextView tvNome,tvMatricula,tvCurso,tvCampus,tvCreditos;
-    private ImageView ivprofileImage,imageQrcode;
+    private TextView tvNome, tvMatricula, tvCurso, tvCampus, tvCreditos;
+    private ImageView ivprofileImage, imageQrcode;
     String userId;
 
     @SuppressLint("SetTextI18n")
@@ -65,7 +65,11 @@ public class CarteiraFragment extends Fragment {
                     String matricula = document.getString("matricula");
                     String curso = document.getString("curso");
                     String campus = document.getString("campus");
-                    String qtd_creditos = document.getString("qtd_creditos");
+
+                    // Verifique o tipo de "qtd_creditos" e converta para String
+                    Object qtdCreditosObj = document.get("qtd_creditos");
+                    String qtdCreditos = qtdCreditosObj != null ? qtdCreditosObj.toString() : "0";
+
                     String imagemUrl = document.getString("foto");
 
                     // Atualizando a UI com as informações do aluno
@@ -73,7 +77,7 @@ public class CarteiraFragment extends Fragment {
                     tvMatricula.setText("Matricula: " + matricula);
                     tvCurso.setText("Curso: " + curso);
                     tvCampus.setText("Campus: " + campus);
-                    tvCreditos.setText("Quantidade de créditos: " + qtd_creditos + " restantes");
+                    tvCreditos.setText("Quantidade de créditos: " + qtdCreditos + " restantes");
 
                     // Carregar a imagem de perfil usando Glide
                     Glide.with(requireContext())
@@ -91,10 +95,8 @@ public class CarteiraFragment extends Fragment {
 
 
         // Dados para o QR Code (substitua por seus dados)
-        String text = userId;
-
         try {
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, 300, 300);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(userId, BarcodeFormat.QR_CODE, 300, 300);
             Bitmap bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
             for (int x = 0; x < 300; x++) {
                 for (int y = 0; y < 300; y++) {
