@@ -1,17 +1,19 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <!-- Gradiente Linear -->
-    <gradient
-        android:angle="270"
-        android:endColor="#3C7268"
-        android:startColor="#4A8A7C"
-        android:type="linear" />
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Borda -->
-    <stroke
-        android:width="2dp"
-        android:color="#2F5A4E" />
+    <!-- Imagem principal (fundo arredondado) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/transparente" /> <!-- Cor da imagem/fundo -->
+            <stroke
+                android:color="#128C7E" /> <!-- Borda -->
+        </shape>
+    </item>
 
-    <!-- Cantos Arredondados -->
-    <corners android:radius="30dp" />
-</shape>
+    <!-- Badge check no canto inferior direito -->
+    <item
+        android:width="24dp"
+        android:height="24dp"
+        android:drawable="@drawable/ic_check"
+        android:gravity="bottom|end"
+        />
+</layer-list>

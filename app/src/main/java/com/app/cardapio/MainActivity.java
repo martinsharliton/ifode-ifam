@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void verificarAluno(String usuario, String senha) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("aluno")
@@ -126,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         if (senhaArmazenada != null && senhaArmazenada.equals(senha)) {
                             String documentId = document.getId();
                             AlunoAuth.getInstance().setDocumentId(documentId);
+                            salvarLogin(documentId, usuarioValue, senhaValue);
                             Toast.makeText(this, "Bem-vindo, Administrador!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(this, HomeAdm.class));
                             finish();
@@ -170,9 +170,13 @@ public class MainActivity extends AppCompatActivity {
                 .getString("userId", null);
         if (userId != null) {
             AlunoAuth.getInstance().setDocumentId(userId);
-            startActivity(new Intent(this, Home.class));
+            if (userId.contains("YpcuDQBwAeigcM20dm5J")) {
+                startActivity(new Intent(this, HomeAdm.class));
+            } else {
+                startActivity(new Intent(this, Home.class));
+            }
             finish();
-        }else{
+        } else {
             String nomeUsuario = getSharedPreferences("appPreferences", MODE_PRIVATE)
                     .getString("nomeUsuario", null);
             String senhaUsuario = getSharedPreferences("appPreferences", MODE_PRIVATE)

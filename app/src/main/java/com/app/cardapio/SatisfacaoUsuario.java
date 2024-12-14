@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.app.cardapio.models.AlunoAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,7 +57,7 @@ public class SatisfacaoUsuario extends AppCompatActivity {
 
                 imageView.setOnClickListener(v -> {
                     resetSelection(layout); // Remove a seleção anterior
-                    imageView.setBackgroundResource(R.drawable.selected_background); // Aplica efeito visual
+                    imageView.setForeground(ContextCompat.getDrawable(this, R.drawable.selected_background)); // Aplica efeito visual
                     respostas.put("questoes" + questionNumber, selectedValue);
                 });
             }
@@ -64,11 +65,12 @@ public class SatisfacaoUsuario extends AppCompatActivity {
     }
 
     private void resetSelection(LinearLayout layout) {
-        // Remove o fundo selecionado de todas as imagens
+        // Remove o foreground selecionado de todas as imagens
         for (int i = 0; i < layout.getChildCount(); i++) {
-            layout.getChildAt(i).setBackground(null);
+            layout.getChildAt(i).setForeground(null);
         }
     }
+
 
     private void saveFeedback() {
         try {

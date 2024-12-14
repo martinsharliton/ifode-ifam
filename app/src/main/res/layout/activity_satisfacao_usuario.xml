@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="4dp">
 
             <!-- Pergunta 1 -->
             <TextView
@@ -56,31 +56,31 @@
                     android:id="@+id/emocard1_1"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_1" />
+                    android:src="@drawable/e1" />
 
                 <ImageView
                     android:id="@+id/emocard1_2"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_2" />
+                    android:src="@drawable/e2" />
 
                 <ImageView
                     android:id="@+id/emocard1_3"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_3" />
+                    android:src="@drawable/e3" />
 
                 <ImageView
                     android:id="@+id/emocard1_4"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_4" />
+                    android:src="@drawable/e4" />
 
                 <ImageView
                     android:id="@+id/emocard1_5"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_5" />
+                    android:src="@drawable/e5" />
             </LinearLayout>
 
             <!-- Pergunta 2 -->
@@ -97,31 +97,31 @@
                     android:id="@+id/emocard2_1"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_1" />
+                    android:src="@drawable/e1" />
 
                 <ImageView
                     android:id="@+id/emocard2_2"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_2" />
+                    android:src="@drawable/e2" />
 
                 <ImageView
                     android:id="@+id/emocard2_3"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_3" />
+                    android:src="@drawable/e3" />
 
                 <ImageView
                     android:id="@+id/emocard2_4"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_4" />
+                    android:src="@drawable/e4" />
 
                 <ImageView
                     android:id="@+id/emocard2_5"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_5" />
+                    android:src="@drawable/e5" />
             </LinearLayout>
 
             <!-- Pergunta 3 -->
@@ -138,31 +138,31 @@
                     android:id="@+id/emocard3_1"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_1" />
+                    android:src="@drawable/e1" />
 
                 <ImageView
                     android:id="@+id/emocard3_2"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_2" />
+                    android:src="@drawable/e2" />
 
                 <ImageView
                     android:id="@+id/emocard3_3"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_3" />
+                    android:src="@drawable/e3" />
 
                 <ImageView
                     android:id="@+id/emocard3_4"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_4" />
+                    android:src="@drawable/e4" />
 
                 <ImageView
                     android:id="@+id/emocard3_5"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_5" />
+                    android:src="@drawable/e5" />
             </LinearLayout>
 
             <!-- Pergunta 4 -->
@@ -173,37 +173,38 @@
 
             <LinearLayout
                 android:id="@+id/layoutQuestion4"
+                android:layout_marginBottom="15dp"
                 style="@style/EmocardContainerStyle">
 
                 <ImageView
                     android:id="@+id/emocard4_1"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_1" />
+                    android:src="@drawable/e1" />
 
                 <ImageView
                     android:id="@+id/emocard4_2"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_2" />
+                    android:src="@drawable/e2" />
 
                 <ImageView
                     android:id="@+id/emocard4_3"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_3" />
+                    android:src="@drawable/e3" />
 
                 <ImageView
                     android:id="@+id/emocard4_4"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_4" />
+                    android:src="@drawable/e4" />
 
                 <ImageView
                     android:id="@+id/emocard4_5"
                     style="@style/EmocardStyle"
                     android:contentDescription="@string/emocard"
-                    android:src="@drawable/emocards_5" />
+                    android:src="@drawable/e5" />
             </LinearLayout>
 
         </LinearLayout>

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.app.cardapio.R;
 import com.app.cardapio.adapter.CardapioAdapter;
+import com.app.cardapio.adapter.CardapioAdminAdapter;
 import com.app.cardapio.models.Cardapio;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class HomeAdmFragment extends Fragment {
         cardapioList.add(new Cardapio("Peixe Grelhado", "Refeição leve e saudável.", "Quarta-feira - 11h às 13h", R.drawable.logo_ifam));
         cardapioList.add(new Cardapio("Frango Assado", "Nutrição balanceada para o dia.", "Quinta-feira - 11h às 13h", R.drawable.dioneco));
 
-        CardapioAdapter adapter = new CardapioAdapter(cardapioList, getContext());
+        CardapioAdminAdapter adapter = new CardapioAdminAdapter(cardapioList, getContext());
         recyclerView.setAdapter(adapter);
 
         return view;

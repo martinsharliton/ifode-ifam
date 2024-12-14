@@ -7,7 +7,7 @@
         android:id="@+id/action_notifications"
         android:icon="@drawable/ic_notificacao"
         android:title="@string/notifica_es"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <!-- Item de sair -->
     <item

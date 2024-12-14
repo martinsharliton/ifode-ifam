@@ -2,24 +2,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
     android:elevation="8dp"
-    android:radius="12dp"
-    app:cardBackgroundColor="@android:color/white">
+    android:radius="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Linha com imagem e descrição -->
+        <!-- Header with Image and Title -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
 
             <ImageView
                 android:id="@+id/item_image"
@@ -27,18 +28,16 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@android:color/white"
                 android:contentDescription="@string/descricao_image"
                 android:scaleType="centerCrop"
-                android:shape="oval"
                 android:src="@drawable/logo_ifam" />
 
-            <!-- Descrição do item -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingStart="8dp">
 
                 <TextView
                     android:id="@+id/item_title"
@@ -57,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
-                    android:maxLines="3"
+                    android:maxLines="2"
                     android:text="Alimentos saudáveis são fundamentais para manter o corpo e a mente funcionando bem."
                     android:textColor="#757575"
                     android:textSize="14sp" />
@@ -66,7 +65,7 @@
                     android:id="@+id/item_schedule"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="Segunda-feira das 11h às 13h"
                     android:textColor="@color/primary"
                     android:textSize="14sp"
@@ -74,16 +73,39 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Botão de avaliar -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/item_button"
-            android:layout_width="wrap_content"
+        <!-- Buttons Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/primary"
-            android:text="AVALIAR RESTAURANTE"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/item_edit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/yellow"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="EDITAR REFEIÇÃO"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/item_delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/red"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="EXCLUIR REFEIÇÃO"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

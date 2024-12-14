@@ -1,18 +1,17 @@
 package com.app.cardapio;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import com.app.cardapio.fragment.CarteiraFragment;
-import com.app.cardapio.fragment.HomeAdmFragment;
-import com.app.cardapio.fragment.HomeFragment;
 import com.app.cardapio.fragment.LeitorCarteiraFragment;
+import com.app.cardapio.fragment.HomeAdmFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeAdm extends AppCompatActivity {
@@ -58,15 +57,42 @@ public class HomeAdm extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        // Esconde o item de notificações automaticamente na tela HomeAdm
+        MenuItem notificationsItem = menu.findItem(R.id.action_notifications);
+        if (notificationsItem != null) {
+            notificationsItem.setVisible(false); // Esconde o botão de notificações
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_notifications) {
-            Toast.makeText(this, "Notificações clicadas!", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.action_exit) {
+            // Lógica para sair e redirecionar para a MainActivity
+            logoutAndRedirectToLogin();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logoutAndRedirectToLogin() {
+        SharedPreferences preferences = getSharedPreferences("appPreferences", MODE_PRIVATE);
+        String savedLogin = preferences.getString("nomeUsuario", "");
+        String savedPassword = preferences.getString("senhaUsuario", "");
+
+        // Limpando o SharedPreferences
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("userId"); // Remove a chave 'senhaUsuario'
+        editor.apply();
+
+        // Redirecionando para MainActivity e passando as credenciais
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("nomeUsuario", savedLogin);
+        intent.putExtra("senhaUsuario", savedPassword);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
