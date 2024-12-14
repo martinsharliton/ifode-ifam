@@ -1,32 +1,51 @@
 package com.app.cardapio;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 public class NotificationReceiver extends BroadcastReceiver {
-    @SuppressLint({"MissingPermission", "NotificationPermission"})
     @Override
     public void onReceive(Context context, Intent intent) {
-        // Verifica se o Intent recebido possui a ação correta
-        if (intent != null && Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            // Criação da notificação
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "daily_notification")
-                    .setSmallIcon(R.drawable.logo_ifam)
-                    .setContentTitle("Refeitório")
-                    .setContentText("Deseja não almoçar hoje? Clique aqui para decidir.")
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setDefaults(NotificationCompat.DEFAULT_ALL)
-                    .setAutoCancel(false)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-
-            // Envio da notificação
-            NotificationManagerCompat manager = NotificationManagerCompat.from(context);
-            manager.notify(1, builder.build());
+        // Verifica a permissão POST_NOTIFICATIONS no Android 13+ (API 33+)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
         }
+
+        // Intent para abrir a atividade Home
+        Intent activityIntent = new Intent(context, Home.class);
+        activityIntent.putExtra("SHOW_DIALOG", true);
+        activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context,
+                0,
+                activityIntent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        // Constrói a notificação
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "daily_notification")
+                .setSmallIcon(R.drawable.ic_notificacao)
+                .setContentTitle("Lembrete de Almoço")
+                .setContentText("Não esqueça de confirmar seu almoço no refeitório!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true) // Remove a notificação ao clicar
+                .setContentIntent(pendingIntent); // Associa a notificação ao PendingIntent
+
+        // Envia a notificação
+        NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+        manager.notify(1, builder.build());
     }
+
 }

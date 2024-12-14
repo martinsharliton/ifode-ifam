@@ -15,7 +15,7 @@
     <string name="data_de_nascimento">Data de Nascimento</string>
     <string name="notifica_es">Notificações</string>
     <string name="emocard">emocard</string>
-    <string name="zxing_msg_default_status"></string>
+    <string name="sair">sair</string>
     <string name="zxing_msg_camera_framework_bug">Desculpe, a camera do android encontrou um problema. Você necessita reiniciar o dispositivo.</string>
 
     <!-- TODO: Remove or change this placeholder text -->

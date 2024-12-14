@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Item de notificações -->
     <item
         android:id="@+id/action_notifications"
         android:icon="@drawable/ic_notificacao"
         android:title="@string/notifica_es"
+        app:showAsAction="always" />
+
+    <!-- Item de sair -->
+    <item
+        android:id="@+id/action_exit"
+        android:icon="@drawable/ic_sair"
+        android:title="@string/sair"
         app:showAsAction="always" />
 </menu>

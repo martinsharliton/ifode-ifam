@@ -2,13 +2,14 @@ package com.app.cardapio;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.Toast;
-import android.view.MotionEvent;
-import android.view.View;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText usuario;
     private EditText senha;
-    private Button login;
-    private boolean senhaVisivel = false;
+    boolean senhaVisivel = false;
+    String usuarioValue;
+    String senhaValue;
 
     @SuppressLint("ClickableViewAccessibility")
 
@@ -32,13 +34,32 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        // Inicializa as views
         usuario = findViewById(R.id.editTextUsuario);
         senha = findViewById(R.id.editTextSenha);
-        login = findViewById(R.id.buttonLogin);
+        Button buttonLogin = findViewById(R.id.buttonLogin);
 
-        login.setOnClickListener(v -> {
-            String usuarioValue = usuario.getText().toString().trim();
-            String senhaValue = senha.getText().toString().trim();
+        // Verifica se já existe um usuário logado
+        verificarLoginSalvo();
+
+        // Recupera os valores passados via Intent
+        Intent intent = getIntent();
+        if (intent != null) {
+            String loginIntent = intent.getStringExtra("nomeUsuario");
+            String passwordIntent = intent.getStringExtra("senhaUsuario");
+
+            if (loginIntent != null) {
+                usuario.setText(loginIntent);
+            }
+            if (passwordIntent != null) {
+                senha.setText(passwordIntent);
+            }
+        }
+
+        // Configura botão de login
+        buttonLogin.setOnClickListener(v -> {
+            usuarioValue = usuario.getText().toString().trim();
+            senhaValue = senha.getText().toString().trim();
 
             if (usuarioValue.isEmpty()) {
                 usuario.setError("O campo usuário não pode ser vazio");
@@ -52,21 +73,20 @@ public class MainActivity extends AppCompatActivity {
             verificarAluno(usuarioValue, senhaValue);
         });
 
-        senha.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Verifica se o evento foi na área do drawableEnd
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Drawable drawableEnd = senha.getCompoundDrawablesRelative()[2]; // DrawableEnd
-                    if (drawableEnd != null && event.getRawX() >= (senha.getRight() - drawableEnd.getBounds().width())) {
-                        toggleSenhaVisibilidade();
-                        return true; // Consumiu o evento
-                    }
+        senha.setOnTouchListener((v, event) -> {
+            // Verifica se o evento foi na área do drawableEnd
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                Drawable drawableEnd = senha.getCompoundDrawablesRelative()[2]; // DrawableEnd
+                if (drawableEnd != null && event.getRawX() >= (senha.getRight() - drawableEnd.getBounds().width())) {
+                    toggleSenhaVisibilidade();
+                    return true; // Consumiu o evento
                 }
-                return false;
             }
+            return false;
         });
     }
+
+
 
     private void verificarAluno(String usuario, String senha) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -80,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         if (senhaArmazenada != null && senhaArmazenada.equals(senha)) {
                             String documentId = document.getId();
                             AlunoAuth.getInstance().setDocumentId(documentId);
+                            salvarLogin(documentId, usuarioValue, senhaValue);
                             Toast.makeText(this, "Bem-vindo, Aluno!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(this, Home.class));
                             finish();
@@ -90,9 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         verificarAdministrador(usuario, senha);
                     }
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_LONG).show();
-                });
+                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_LONG).show());
     }
 
     private void verificarAdministrador(String usuario, String senha) {
@@ -117,9 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Usuário ou senha incorretos. [EM NADA]", Toast.LENGTH_LONG).show();
                     }
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_LONG).show();
-                });
+                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_LONG).show());
     }
 
     private void toggleSenhaVisibilidade() {
@@ -136,5 +153,34 @@ public class MainActivity extends AppCompatActivity {
 
         // Move o cursor para o final
         senha.setSelection(senha.getText().length());
+    }
+
+    private void salvarLogin(String documentId, String nomeUsuario, String senhaUsuario) {
+        getSharedPreferences("appPreferences", MODE_PRIVATE)
+                .edit()
+                .putString("userId", documentId)      // Salva o ID do usuário
+                .putString("nomeUsuario", nomeUsuario) // Salva o nome do usuário
+                .putString("senhaUsuario", senhaUsuario) // Salva o e-mail do usuário
+                .apply();
+    }
+
+
+    private void verificarLoginSalvo() {
+        String userId = getSharedPreferences("appPreferences", MODE_PRIVATE)
+                .getString("userId", null);
+        if (userId != null) {
+            AlunoAuth.getInstance().setDocumentId(userId);
+            startActivity(new Intent(this, Home.class));
+            finish();
+        }else{
+            String nomeUsuario = getSharedPreferences("appPreferences", MODE_PRIVATE)
+                    .getString("nomeUsuario", null);
+            String senhaUsuario = getSharedPreferences("appPreferences", MODE_PRIVATE)
+                    .getString("senhaUsuario", null);
+            usuario.setText(nomeUsuario);
+            senha.setText(senhaUsuario);
+        }
+
+
     }
 }
