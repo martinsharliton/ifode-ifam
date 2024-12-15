@@ -90,6 +90,7 @@
                 android:backgroundTint="@color/yellow"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                android:enabled="false"
                 android:text="EDITAR REFEIÇÃO"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />

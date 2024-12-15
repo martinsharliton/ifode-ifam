@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cardapio {
+    private String id;
     private String titulo;
     private String descricao;
     private String horario;
-    private int idImagem;
+    private int imagemId;
 }

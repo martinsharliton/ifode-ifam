@@ -5,10 +5,10 @@
         android:title="Cardápio" />
     <item
         android:id="@+id/leitorCarteira"
-        android:icon="@drawable/ic_card"
+        android:icon="@drawable/ic_qr_code"
         android:title="Leitor Carteira" />
     <item
         android:id="@+id/estatisticas"
-        android:icon="@drawable/ic_person"
+        android:icon="@drawable/ic_file"
         android:title="Relatórios" />
 </menu>

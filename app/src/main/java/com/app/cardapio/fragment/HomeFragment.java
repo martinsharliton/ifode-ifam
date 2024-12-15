@@ -1,9 +1,12 @@
 package com.app.cardapio.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,29 +17,88 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.cardapio.R;
 import com.app.cardapio.adapter.CardapioAdapter;
 import com.app.cardapio.models.Cardapio;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
+    private RecyclerView recyclerView;
+    private TextView mensagem;
+    private CardapioAdapter adapter;
+    private List<Cardapio> cardapioList;
+    private FirebaseFirestore db;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        // Configuração do RecyclerView
+        recyclerView = view.findViewById(R.id.recyclerView);
+        mensagem = view.findViewById(R.id.textView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<Cardapio> cardapioList = new ArrayList<>();
-        cardapioList.add(new Cardapio("Lasanha e Carne Moída", "Alimentos saudáveis são fundamentais.", "Segunda-feira - 11h às 13h", R.drawable.logo_ifam));
-        cardapioList.add(new Cardapio("Frango Assado", "Nutrição balanceada para o dia.", "Terça-feira - 11h às 13h", R.drawable.dioneco));
-        cardapioList.add(new Cardapio("Peixe Grelhado", "Refeição leve e saudável.", "Quarta-feira - 11h às 13h", R.drawable.logo_ifam));
-        cardapioList.add(new Cardapio("Frango Assado", "Nutrição balanceada para o dia.", "Quinta-feira - 11h às 13h", R.drawable.dioneco));
-
-        CardapioAdapter adapter = new CardapioAdapter(cardapioList, getContext());
+        // Inicializando Firebase e Adapter
+        db = FirebaseFirestore.getInstance();
+        cardapioList = new ArrayList<>();
+        adapter = new CardapioAdapter(cardapioList, getContext());
         recyclerView.setAdapter(adapter);
 
+        // Buscar dados do Firestore
+        loadCardapiosFromFirestore();
+
         return view;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadCardapiosFromFirestore() {
+        db.collection("cardapios").addSnapshotListener((querySnapshot, e) -> {
+            if (e != null) {
+                Toast.makeText(getContext(), "Erro ao carregar cardápios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            cardapioList.clear(); // Limpa a lista para evitar duplicação
+            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                for (DocumentSnapshot doc : querySnapshot) {
+                    String id = doc.getId();
+                    String titulo = doc.getString("titulo");
+                    String descricao = doc.getString("descricao");
+                    String horario = doc.getString("horario");
+                    String imagem = doc.getString("imagem");
+
+                    int imagemId = getImageResourceId(imagem);
+                    cardapioList.add(new Cardapio(id, titulo, descricao, horario, imagemId));
+                }
+            }
+
+            // Atualiza a mensagem se não houver cardápios
+            if (cardapioList.isEmpty()) {
+                mensagem.setText("Cardápio desta semana ainda não cadastrado");
+            } else {
+                mensagem.setText("Cardápio"); // Limpa a mensagem se houver cardápios
+            }
+
+            adapter.notifyDataSetChanged(); // Notifica o Adapter para atualizar a RecyclerView
+        });
+    }
+
+    // Função para mapear o nome da imagem no Firestore para o ID do drawable
+    private int getImageResourceId(String imageName) {
+        if (imageName == null || imageName.isEmpty()) {
+            return R.drawable.logo_ifam; // Imagem padrão
+        }
+
+        switch (imageName) {
+            case "logo_ifam":
+                return R.drawable.logo_ifam;
+            case "dioneco":
+                return R.drawable.dioneco;
+            default:
+                return R.drawable.logo_ifam; // Imagem padrão
+        }
     }
 }

@@ -1,4 +1,11 @@
 <resources>
+    <string-array name="horarios">
+        <item>Segunda-feira - 11h às 13h</item>
+        <item>Terça-feira - 11h às 13h</item>
+        <item>Quarta-feira - 11h às 13h</item>
+        <item>Quinta-feira - 11h às 13h</item>
+    </string-array>
+
     <string name="app_name">cardapio</string>
     <string name="login">Login</string>
     <string name="senha">Senha</string>

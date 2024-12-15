@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".fragment.CarteiraFragment">
 
+    <!-- Nome do Usuário -->
     <TextView
         android:id="@+id/profileNamecard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_extrabold"
         android:text="Nome do Usuário"
         android:textAlignment="center"
@@ -21,59 +19,52 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Imagem de Perfil -->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profileImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="12dp"
         android:contentDescription="Profile Picture"
         android:scaleType="centerCrop"
         android:src="@drawable/user_app"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileNamecard"
         app:shapeAppearanceOverlay="@style/CircleImage"
         app:strokeColor="@color/primary"
         app:strokeWidth="1dp" />
 
+    <!-- Nome da Instituição -->
     <TextView
         android:id="@+id/nomeInstituicao"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_bold"
-        android:paddingBottom="15dp"
         android:text="INSTITUTO FEDERAL DO AMAZONAS"
         android:textAlignment="center"
         android:textColor="@color/secondary"
         android:textSize="14sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+        app:layout_constraintTop_toBottomOf="@id/profileImage" />
 
+    <!-- Card do Curso -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardCourse"
-        android:layout_width="379dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="250dp"
-        android:layout_marginEnd="16dp"
+        android:layout_margin="16dp"
         android:elevation="4dp"
         android:padding="16dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/nomeInstituicao">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,7 +75,7 @@
             <TextView
                 android:id="@+id/statusMatriculacard"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_extrabold"
                 android:text="Status: Ativo"
                 android:textAlignment="center"
@@ -95,6 +86,7 @@
                 android:id="@+id/nomeCampuscard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/poppins"
                 android:text="Campus: MANAUS - CMZL"
                 android:textColor="@color/secondary"
@@ -104,6 +96,7 @@
                 android:id="@+id/nomeCursocard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/poppins"
                 android:text="Curso: Engenharia de Software"
                 android:textColor="@color/secondary"
@@ -113,6 +106,7 @@
                 android:id="@+id/numeroMatriculacard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/poppins"
                 android:text="Matrícula: 123456789"
                 android:textColor="@color/secondary"
@@ -122,6 +116,7 @@
                 android:id="@+id/qtd_creditos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/poppins"
                 android:text="Quantidade de créditos: 16 restantes"
                 android:textColor="@color/secondary"
@@ -129,17 +124,17 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- QR Code -->
     <ImageView
         android:id="@+id/imageQrcode"
-        android:layout_width="320dp"
-        android:layout_height="320dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="16dp"
-        android:layout_marginBottom="15dp"
         android:contentDescription="QR Code"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardCourse" />
 

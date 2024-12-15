@@ -44,15 +44,14 @@ public class CardapioAdapter extends RecyclerView.Adapter<CardapioAdapter.Cardap
         holder.titulo.setText(item.getTitulo());
         holder.descricao.setText(item.getDescricao());
         holder.horario.setText(item.getHorario());
-        holder.imagem.setImageResource(item.getIdImagem());
+        holder.imagem.setImageResource(item.getImagemId());
 
         holder.avaliarRestauranteButton.setOnClickListener(v -> {
             if (context != null) {
                 try {
-                    Log.d("CardapioAdapter", "Botão clicado para: " + item.getTitulo());
-                    Toast.makeText(context, "Abrindo avaliação para: " + item.getTitulo(), Toast.LENGTH_SHORT).show();
-
+                    Log.d("CardapioAdapter", "Abrindo avaliação para: " + item.getTitulo());
                     Intent intent = new Intent(context, SatisfacaoUsuario.class);
+                    intent.putExtra("cardapio_id", item.getId());
                     context.startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -61,7 +60,6 @@ public class CardapioAdapter extends RecyclerView.Adapter<CardapioAdapter.Cardap
                 Log.e("CardapioAdapter", "Contexto é nulo ao clicar no botão Avaliar Restaurante.");
             }
         });
-
     }
 
     @Override
