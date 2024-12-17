@@ -22,11 +22,12 @@ public class NotificationReceiver extends BroadcastReceiver {
             }
         }
 
-        // Intent para abrir a atividade Home
+        // Intent para abrir a atividade Home com o modal
         Intent activityIntent = new Intent(context, Home.class);
         activityIntent.putExtra("SHOW_DIALOG", true);
         activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
+        // Configura o PendingIntent
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context,
                 0,
@@ -34,18 +35,17 @@ public class NotificationReceiver extends BroadcastReceiver {
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
         );
 
-        // Constrói a notificação
+        // Configura a notificação
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "daily_notification")
-                .setSmallIcon(R.drawable.ic_notificacao)
+                .setSmallIcon(R.drawable.ic_notificacao) // Ícone da notificação
                 .setContentTitle("Lembrete de Almoço")
                 .setContentText("Não esqueça de confirmar seu almoço no refeitório!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true) // Remove a notificação ao clicar
-                .setContentIntent(pendingIntent); // Associa a notificação ao PendingIntent
+                .setAutoCancel(true) // Fecha a notificação ao clicar
+                .setContentIntent(pendingIntent); // Associa o PendingIntent
 
-        // Envia a notificação
+        // Exibe a notificação
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
-        manager.notify(1, builder.build());
+        manager.notify(1, builder.build()); // Substitua "1" por um ID dinâmico, se necessário
     }
-
 }

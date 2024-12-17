@@ -1,0 +1,11 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Ícone Base -->
+    <item android:drawable="@drawable/ic_notificacao" />
+
+    <!-- Badge no Canto Superior Direito -->
+    <item
+        android:drawable="@drawable/ic_badge"
+        android:top="2dp"
+        android:right="2dp"
+        android:gravity="end|top" />
+</layer-list>

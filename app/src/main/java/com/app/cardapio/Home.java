@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.app.cardapio.fragment.CarteiraFragment;
@@ -33,6 +34,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class Home extends AppCompatActivity {
     private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
@@ -42,8 +44,7 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
-                == Configuration.UI_MODE_NIGHT_YES) {
+        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
             // Se estiver em modo escuro, forçar modo claro
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
@@ -53,6 +54,10 @@ public class Home extends AppCompatActivity {
         // Configura a Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (getIntent().getBooleanExtra("SHOW_DIALOG", false)) {
+            showConfirmationDialog();
+        }
 
         // Configura a navegação por fragmentos
         BottomNavigationView navigationBar = findViewById(R.id.navigationBar);
@@ -80,9 +85,30 @@ public class Home extends AppCompatActivity {
         fetchNotificationStatus();
     }
 
+    private void updateNotificationIconBasedOnTime(Menu menu) {
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
+
+        // Verifica se o horário está entre 9:00 e 11:30
+        boolean isBetween9And1130 = (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
+
+        // Encontra o item no menu
+        MenuItem item = menu.findItem(R.id.action_notifications);
+        if (item != null) {
+            // Atualiza o ícone com base no horário
+            item.setIcon(isBetween9And1130 ? R.drawable.ic_notification_with_badge : R.drawable.ic_notificacao);
+        }
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        // Atualizar o ícone após o menu ser inflado
+        updateNotificationIconBasedOnTime(menu);
+
         return true;
     }
 
@@ -92,7 +118,7 @@ public class Home extends AppCompatActivity {
             if (isWithinAllowedTime()) {
                 showConfirmationDialog();
             } else {
-                Toast.makeText(this, "As alterações só podem ser feitas até as 11:30.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "As alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.", Toast.LENGTH_SHORT).show();
             }
             return true;
         } else if (item.getItemId() == R.id.action_exit) {
@@ -114,13 +140,8 @@ public class Home extends AppCompatActivity {
     private void requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // Checar se a permissão já foi concedida
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                        this,
-                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
-                        REQUEST_NOTIFICATION_PERMISSION
-                );
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
             }
         }
     }
@@ -169,12 +190,7 @@ public class Home extends AppCompatActivity {
     public void scheduleDailyNotification() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this,
-                0,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
-        );
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Cancelar qualquer alarme existente antes de agendar um novo
         if (alarmManager != null) {
@@ -195,12 +211,7 @@ public class Home extends AppCompatActivity {
 
         // Agendar o alarme diário
         if (alarmManager != null) {
-            alarmManager.setInexactRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY,
-                    pendingIntent
-            );
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 
@@ -215,7 +226,7 @@ public class Home extends AppCompatActivity {
 
     private void showConfirmationDialog() {
         if (!isWithinAllowedTime()) {
-            Toast.makeText(this, "As alterações só podem ser feitas até as 11:30 da manhã", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "As alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -226,7 +237,14 @@ public class Home extends AppCompatActivity {
                 String mensagem = optouAlmoco ? "Você escolheu não almoçar. Deseja mudar a opção?\n\n\nAs alterações só podem ser feitas até as 11:30 da manhã" : "Deseja realmente não almoçar no refeitório?\n\n\nAs alterações só podem ser feitas até as 11:30 da manhã";
                 boolean novaResposta = !optouAlmoco;
 
-                new AlertDialog.Builder(this).setTitle("Confirmar decisão").setMessage(mensagem).setPositiveButton("Confirmar", (dialog, which) -> saveResponseToFirebase(novaResposta)).setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss()).show();
+                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Confirmar decisão").setMessage(mensagem).setPositiveButton("Confirmar", (dialogInterface, which) -> saveResponseToFirebase(novaResposta)).setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss()).create();
+
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.dialog_rounded_background);
+
+                dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.primary));
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.primary));
+
             }
         }).addOnFailureListener(e -> Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_SHORT).show());
     }
@@ -235,7 +253,7 @@ public class Home extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currentMinute = calendar.get(Calendar.MINUTE);
-        return (currentHour < 11 || (currentHour == 11 && currentMinute <= 30));
+        return (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
     }
 
     private void saveResponseToFirebase(boolean response) {
