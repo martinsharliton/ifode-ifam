@@ -1,6 +1,8 @@
 package com.app.cardapio.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,20 +18,31 @@ import androidx.fragment.app.DialogFragment;
 import com.app.cardapio.R;
 import com.bumptech.glide.Glide;
 
+import java.util.Objects;
+
 public class AlunoInfoDialogFragment extends DialogFragment {
 
-    private String nome, matricula, curso, campus, qtdCreditos, imagemUrl;
+    private final String nome;
+    private final String matricula;
+    private final String curso;
+    private final String campus;
+    private final String qtdCreditos;
+    private final String imagemUrl;
+    private final OnDialogDismissListener dismissListener;
 
     public AlunoInfoDialogFragment(String nome, String matricula, String curso,
-                                   String campus, String qtdCreditos, String imagemUrl) {
+                                   String campus, String qtdCreditos, String imagemUrl,
+                                   OnDialogDismissListener dismissListener) {
         this.nome = nome;
         this.matricula = matricula;
         this.curso = curso;
         this.campus = campus;
         this.qtdCreditos = qtdCreditos;
         this.imagemUrl = imagemUrl;
+        this.dismissListener = dismissListener;
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,24 +65,40 @@ public class AlunoInfoDialogFragment extends DialogFragment {
         tvCampus.setText("Campus: " + campus);
         tvCreditos.setText("Quantidade de créditos: " + qtdCreditos);
 
-        // Load image with Glide
-        Glide.with(requireContext())
-                .load(imagemUrl)
-                .placeholder(R.drawable.ic_person)
-                .into(ivProfileImage);
+        if (imagemUrl != null && imagemUrl.contains("no_picture.png")) {
+            // Carregar imagem padrão
+            Glide.with(requireContext())
+                    .load(R.drawable.user_app)
+                    .into(ivProfileImage);
+        } else {
+            // Carregar a imagem da URL
+            Glide.with(requireContext())
+                    .load(imagemUrl) // URL da imagem
+                    .into(ivProfileImage);
+        }
 
         // Button actions
         btnAceitar.setOnClickListener(v -> {
             dismiss();
-            // Handle accept action here
         });
 
         btnRecusar.setOnClickListener(v -> {
             dismiss();
-            // Handle refuse action here
         });
 
         return view;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (dismissListener != null) {
+            dismissListener.onDismiss();
+        }
+    }
+
+    public interface OnDialogDismissListener {
+        void onDismiss();
     }
 
     @Override
@@ -77,7 +106,12 @@ public class AlunoInfoDialogFragment extends DialogFragment {
         super.onStart();
         Dialog dialog = getDialog();
         if (dialog != null) {
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            // Define o tamanho do diálogo
+            Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            // Aplica o fundo arredondado
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded_background);
         }
     }
 }
+

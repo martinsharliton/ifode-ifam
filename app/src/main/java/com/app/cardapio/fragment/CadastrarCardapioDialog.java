@@ -55,6 +55,7 @@ public class CadastrarCardapioDialog extends DialogFragment {
                 R.array.horarios, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerHorario.setAdapter(adapter);
+        spinnerHorario.setPopupBackgroundResource(android.R.color.white);
 
         if (getArguments() != null) {
             cardapio = (Cardapio) getArguments().getSerializable("cardapio");
@@ -86,10 +87,12 @@ public class CadastrarCardapioDialog extends DialogFragment {
             // Ajustando o tamanho do diálogo para ocupar toda a largura da tela
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            // Aplica o tamanho e o background arredondado
             Objects.requireNonNull(getDialog().getWindow()).setLayout(width, height);
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded_background);
         }
     }
-
 
     private void saveCardapio() {
         try {

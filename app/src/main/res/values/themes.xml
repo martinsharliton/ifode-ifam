@@ -9,6 +9,12 @@
         <item name="colorOnSurfaceVariant">@color/gray</item>
     </style>
 
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/green_accent</item>
+        <item name="android:height">40dp</item>
+        <item name="android:width">40dp</item>
+    </style>
+
     <style name="Theme.Cardapio.NoActionBar" parent="Base.Theme.Cardapio">
         <item name="android:statusBarColor">@color/primary</item>
         <item name="colorPrimary">@color/gray</item>

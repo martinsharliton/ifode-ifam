@@ -1,79 +1,128 @@
-<!-- dialog_aluno_info.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:background="@color/white"
     android:padding="16dp">
-
-    <ImageView
-        android:id="@+id/iv_profile_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:contentDescription="Profile Image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_person" />
-
-    <TextView
-        android:id="@+id/tv_nome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Nome"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tv_matricula"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Matricula: " />
-
-    <TextView
-        android:id="@+id/tv_curso"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Curso: " />
-
-    <TextView
-        android:id="@+id/tv_campus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Campus: " />
-
-    <TextView
-        android:id="@+id/tv_creditos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Quantidade de créditos:" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:background="@color/white"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
+        <!-- Profile Image with Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="75dp"
+            app:cardElevation="4dp">
 
-        <Button
-            android:id="@+id/btn_aceitar"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/iv_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Profile Image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/tv_nome"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/primary"
-            android:text="Aceitar" />
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="Nome do Aluno"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btn_recusar"
-            android:layout_width="wrap_content"
+        <!-- Student Information -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:backgroundTint="@color/red"
-            android:text="Recusar" />
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_matricula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Matrícula: 12345678"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_curso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Curso: Ciência da Computação"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_campus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Campus: Cidade Universitária"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_creditos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Quantidade de créditos: 28"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_aceitar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/primary"
+                android:text="Aceitar"
+                android:textColor="@color/white"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_check"
+                app:iconPadding="8dp"
+                app:iconTint="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_recusar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/red"
+                android:text="Recusar"
+                android:textColor="@color/white"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_close"
+                app:iconPadding="8dp"
+                app:iconTint="@color/white" />
+        </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

@@ -41,7 +41,7 @@ public class CardapioAdminAdapter extends RecyclerView.Adapter<CardapioAdminAdap
         Cardapio cardapio = cardapioList.get(position);
         holder.title.setText(cardapio.getTitulo());
         holder.description.setText(cardapio.getDescricao());
-
+        holder.horario.setText(cardapio.getHorario());
         holder.editButton.setOnClickListener(v -> listener.onEditCardapio(cardapio));
         holder.deleteButton.setOnClickListener(v -> listener.onDeleteCardapio(cardapio));
     }
@@ -52,13 +52,14 @@ public class CardapioAdminAdapter extends RecyclerView.Adapter<CardapioAdminAdap
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description;
+        TextView title, description, horario;
         Button editButton, deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.item_title);
             description = itemView.findViewById(R.id.item_description);
+            horario = itemView.findViewById(R.id.item_schedule);
             editButton = itemView.findViewById(R.id.item_edit_button);
             deleteButton = itemView.findViewById(R.id.item_delete_button);
         }

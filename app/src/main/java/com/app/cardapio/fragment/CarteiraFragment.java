@@ -80,9 +80,18 @@ public class CarteiraFragment extends Fragment {
                     tvCreditos.setText("Quantidade de créditos: " + qtdCreditos + " restantes");
 
                     // Carregar a imagem de perfil usando Glide
-                    Glide.with(requireContext())
-                            .load(imagemUrl) // URL da imagem
-                            .into(ivprofileImage);
+
+                    if (imagemUrl != null && imagemUrl.contains("no_picture.png")) {
+                        // Carregar imagem padrão
+                        Glide.with(requireContext())
+                                .load(R.drawable.user_app)
+                                .into(ivprofileImage);
+                    } else {
+                        // Carregar a imagem da URL
+                        Glide.with(requireContext())
+                                .load(imagemUrl) // URL da imagem
+                                .into(ivprofileImage);
+                    }
                 } else {
                     // Caso o documento não exista, mostrar um erro
                     Toast.makeText(getActivity(), "Dados não encontrados.", Toast.LENGTH_SHORT).show();

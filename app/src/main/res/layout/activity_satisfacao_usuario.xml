@@ -17,6 +17,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_extrabold"
         android:text="Pesquisa"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,11 +41,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/white"
             android:padding="4dp">
 
             <!-- Pergunta 1 -->
             <TextView
                 style="@style/QuestionStyle"
+                android:textColor="@color/black"
                 android:layout_marginBottom="15dp"
                 android:text="O tempo de Atendimento foi satisfatório" />
 
@@ -86,6 +89,7 @@
             <!-- Pergunta 2 -->
             <TextView
                 style="@style/QuestionStyle"
+                android:textColor="@color/black"
                 android:layout_marginBottom="15dp"
                 android:text="A qualidade da comida foi satisfatória" />
 
@@ -127,6 +131,7 @@
             <!-- Pergunta 3 -->
             <TextView
                 style="@style/QuestionStyle"
+                android:textColor="@color/black"
                 android:layout_marginBottom="15dp"
                 android:text="O ambiente do restaurante é agradável e confortável" />
 
@@ -168,6 +173,7 @@
             <!-- Pergunta 4 -->
             <TextView
                 style="@style/QuestionStyle"
+                android:textColor="@color/black"
                 android:layout_marginBottom="15dp"
                 android:text="A qualidade do atendimento no restaurante é satisfatória" />
 

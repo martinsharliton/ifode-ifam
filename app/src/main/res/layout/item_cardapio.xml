@@ -1,10 +1,11 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    android:elevation="8dp"
-    android:radius="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:strokeColor="@color/white"
     app:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
@@ -13,7 +14,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Linha com imagem e descrição -->
+        <!-- Header with Image and Details -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,19 +22,17 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
+            <!-- Circle Image -->
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/item_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@android:color/white"
                 android:contentDescription="@string/descricao_image"
                 android:scaleType="centerCrop"
-                android:shape="oval"
                 android:src="@drawable/logo_ifam" />
 
-            <!-- Descrição do item -->
+            <!-- Details Section -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -47,7 +46,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="Lasanha e Carne Moída"
-                    android:textColor="#2D4E56"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -59,7 +58,7 @@
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:text="Alimentos saudáveis são fundamentais para manter o corpo e a mente funcionando bem."
-                    android:textColor="#757575"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -74,16 +73,18 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Botão de avaliar -->
+        <!-- Button Section -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/item_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/primary"
             android:text="AVALIAR RESTAURANTE"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            app:cornerRadius="8dp"
+            app:backgroundTint="@color/primary" />
 
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>

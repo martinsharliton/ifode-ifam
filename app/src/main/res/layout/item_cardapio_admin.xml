@@ -1,17 +1,18 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
-    android:elevation="8dp"
-    android:radius="16dp">
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:strokeColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/white"
         android:orientation="vertical"
+        android:background="@color/white"
         android:padding="16dp">
 
         <!-- Header with Image and Title -->
@@ -22,6 +23,7 @@
             android:orientation="horizontal"
             android:paddingBottom="8dp">
 
+            <!-- Profile Image -->
             <ImageView
                 android:id="@+id/item_image"
                 android:layout_width="80dp"
@@ -32,6 +34,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/logo_ifam" />
 
+            <!-- Title and Description -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -46,7 +49,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="Lasanha e Carne Moída"
-                    android:textColor="#2D4E56"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -58,7 +61,7 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="Alimentos saudáveis são fundamentais para manter o corpo e a mente funcionando bem."
-                    android:textColor="#757575"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -77,36 +80,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/item_edit_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/yellow"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
+                app:cornerRadius="8dp"
                 android:enabled="false"
+                android:backgroundTint="@color/yellow"
                 android:text="EDITAR REFEIÇÃO"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/item_delete_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                app:cornerRadius="8dp"
                 android:backgroundTint="@color/red"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
                 android:text="EXCLUIR REFEIÇÃO"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>

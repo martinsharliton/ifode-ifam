@@ -1,6 +1,6 @@
 package com.app.cardapio.fragment;
 
-import android.Manifest;
+
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import android.Manifest;
 
 import com.app.cardapio.R;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,6 +31,7 @@ import java.util.List;
 public class LeitorCarteiraFragment extends Fragment {
 
     private DecoratedBarcodeView barcodeScannerView;
+    private boolean isDialogOpen = false; // Flag para evitar abertura múltipla do modal
 
     @Nullable
     @Override
@@ -39,8 +42,9 @@ public class LeitorCarteiraFragment extends Fragment {
         barcodeScannerView.decodeContinuous(new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
-                if (result != null) {
+                if (result != null && !isDialogOpen) { // Só chama se o modal não estiver aberto
                     String qrCodeData = result.getText();
+                    isDialogOpen = true; // Define a flag como true
                     fetchAlunoData(qrCodeData);
                 }
             }
@@ -52,18 +56,6 @@ public class LeitorCarteiraFragment extends Fragment {
         });
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        barcodeScannerView.resume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        barcodeScannerView.pause();
     }
 
     @Override
@@ -85,6 +77,18 @@ public class LeitorCarteiraFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        barcodeScannerView.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        barcodeScannerView.pause();
+    }
+
     private void fetchAlunoData(String documentId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -104,15 +108,18 @@ public class LeitorCarteiraFragment extends Fragment {
 
                     // Show dialog with data
                     AlunoInfoDialogFragment dialog = new AlunoInfoDialogFragment(
-                            nome, matricula, curso, campus, qtdCreditos, imagemUrl);
+                            nome, matricula, curso, campus, qtdCreditos, imagemUrl, () -> isDialogOpen = false);
                     dialog.show(getParentFragmentManager(), "AlunoInfoDialog");
                 } else {
                     Toast.makeText(getContext(), "Documento não encontrado no Firebase.", Toast.LENGTH_SHORT).show();
+                    isDialogOpen = false; // Libera a flag em caso de erro
                 }
             } else {
                 Toast.makeText(getContext(), "Erro ao buscar dados: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                isDialogOpen = false; // Libera a flag em caso de erro
             }
         });
     }
-
 }
+
+

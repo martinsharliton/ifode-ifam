@@ -1,5 +1,6 @@
 package com.app.cardapio;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -8,14 +9,21 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.app.cardapio.fragment.CarteiraFragment;
@@ -27,11 +35,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Calendar;
 
 public class Home extends AppCompatActivity {
+    private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
     boolean notificationEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES) {
+            // Se estiver em modo escuro, forçar modo claro
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_home);
 
         // Configura a Toolbar
@@ -52,7 +68,9 @@ public class Home extends AppCompatActivity {
             return loadFragment(fragment);
         });
 
-        // Restante do código original
+        // Solicitar permissões para notificações
+        requestNotificationPermission();
+
         if (getIntent().getBooleanExtra("SHOW_DIALOG", false)) {
             showConfirmationDialog();
         }
@@ -60,6 +78,12 @@ public class Home extends AppCompatActivity {
         createNotificationChannel();
         scheduleDailyNotification();
         fetchNotificationStatus();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
     }
 
     @Override
@@ -77,6 +101,41 @@ public class Home extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+            return true;
+        }
+        return false;
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Checar se a permissão já foi concedida
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        REQUEST_NOTIFICATION_PERMISSION
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permissão de notificações concedida!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permissão de notificações negada!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void logoutAndRedirectToLogin() {
@@ -98,20 +157,6 @@ public class Home extends AppCompatActivity {
         finish();
     }
 
-    private boolean loadFragment(Fragment fragment) {
-        if (fragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
-
     private void createNotificationChannel() {
         NotificationChannel channel = new NotificationChannel("daily_notification", "Notificações Diárias", NotificationManager.IMPORTANCE_HIGH);
         channel.setDescription("Lembrete para confirmar almoço no refeitório");
@@ -121,19 +166,41 @@ public class Home extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private void scheduleDailyNotification() {
+    public void scheduleDailyNotification() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+        );
 
+        // Cancelar qualquer alarme existente antes de agendar um novo
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
+
+        // Configurar horário para 9:00 da manhã
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 9);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
+        // Se o horário de hoje já passou, agendar para amanhã
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        // Agendar o alarme diário
         if (alarmManager != null) {
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarmManager.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent
+            );
         }
     }
 

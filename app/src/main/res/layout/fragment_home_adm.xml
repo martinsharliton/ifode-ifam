@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/gray"
     android:layout_height="match_parent">
 
     <!-- LinearLayout para alinhar o TextView e o Button horizontalmente -->
@@ -25,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+          android:textColor="@color/white"
             android:backgroundTint="@color/primary"
             android:text="Cadastrar Cardápio" />
     </LinearLayout>

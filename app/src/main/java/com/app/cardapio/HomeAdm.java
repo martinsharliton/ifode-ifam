@@ -2,11 +2,13 @@ package com.app.cardapio;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +21,12 @@ public class HomeAdm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
+            // Se estiver em modo escuro, forçar modo claro
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_home_adm);
 
         // Configura o Toolbar
@@ -45,10 +53,7 @@ public class HomeAdm extends AppCompatActivity {
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainer2, fragment)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer2, fragment).commit();
             return true;
         }
         return false;
