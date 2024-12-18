@@ -86,9 +86,11 @@ public class HomeAdmFragment extends Fragment implements CardapioAdminAdapter.On
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onDeleteCardapio(Cardapio cardapio) {
-        db.collection("cardapios").document(cardapio.getId()).delete().addOnSuccessListener(aVoid -> {
-            cardapioList.remove(cardapio);
-            adapter.notifyDataSetChanged();
-        });
+        db.collection("cardapios").document(cardapio.getId()).delete()
+                .addOnSuccessListener(aVoid -> {
+                    cardapioList.remove(cardapio);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getContext(), "item excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                });
     }
 }

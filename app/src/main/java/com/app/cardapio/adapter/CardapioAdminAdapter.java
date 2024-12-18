@@ -21,8 +21,8 @@ public class CardapioAdminAdapter extends RecyclerView.Adapter<CardapioAdminAdap
         void onDeleteCardapio(Cardapio cardapio);
     }
 
-    private List<Cardapio> cardapioList;
-    private OnCardapioClickListener listener;
+    private final List<Cardapio> cardapioList;
+    private final OnCardapioClickListener listener;
 
     public CardapioAdminAdapter(List<Cardapio> cardapioList, OnCardapioClickListener listener) {
         this.cardapioList = cardapioList;

@@ -18,7 +18,6 @@ import com.app.cardapio.R;
 import com.app.cardapio.models.Cardapio;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 public class CadastrarCardapioDialog extends DialogFragment {
@@ -33,7 +32,7 @@ public class CadastrarCardapioDialog extends DialogFragment {
     public static CadastrarCardapioDialog newInstance(Cardapio cardapio) {
         CadastrarCardapioDialog dialog = new CadastrarCardapioDialog();
         Bundle args = new Bundle();
-        args.putSerializable("cardapio", (Serializable) cardapio);
+        args.putSerializable("cardapio", cardapio);
         dialog.setArguments(args);
         return dialog;
     }

@@ -50,6 +50,7 @@ public class CardapioAdapter extends RecyclerView.Adapter<CardapioAdapter.Cardap
             if (context != null) {
                 try {
                     Log.d("CardapioAdapter", "Abrindo avaliação para: " + item.getTitulo());
+                    Toast.makeText(context, "Abrindo avaliação para: " + item.getTitulo(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, SatisfacaoUsuario.class);
                     intent.putExtra("cardapio_id", item.getId());
                     context.startActivity(intent);
