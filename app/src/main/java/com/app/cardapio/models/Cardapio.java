@@ -1,5 +1,7 @@
 package com.app.cardapio.models;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cardapio {
+public class Cardapio implements Serializable {
     private String id;
     private String titulo;
     private String descricao;

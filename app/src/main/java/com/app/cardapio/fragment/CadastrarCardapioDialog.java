@@ -51,7 +51,7 @@ public class CadastrarCardapioDialog extends DialogFragment {
         db = FirebaseFirestore.getInstance();
 
         // Configurando o ArrayAdapter para o Spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.horarios, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerHorario.setAdapter(adapter);
@@ -96,24 +96,50 @@ public class CadastrarCardapioDialog extends DialogFragment {
 
     private void saveCardapio() {
         try {
+            // Recupera os valores dos campos
             String id = (cardapio != null) ? cardapio.getId() : db.collection("cardapios").document().getId();
-            String titulo = editTextTitle.getText().toString();
-            String descricao = editTextDescription.getText().toString();
+            String titulo = editTextTitle.getText().toString().trim();
+            String descricao = editTextDescription.getText().toString().trim();
             String horario = spinnerHorario.getSelectedItem().toString();
             int defaultImage = R.drawable.logo_ifam;
 
-            if (cardapio == null) {
-                db.collection("cardapios").add(new Cardapio(id, titulo, descricao, horario, defaultImage));
-            } else {
-                db.collection("cardapios").document(cardapio.getId())
-                        .update("titulo", titulo, "descricao", descricao, "horario", horario);
+            // Valida campos obrigatórios
+            if (titulo.isEmpty() || descricao.isEmpty()) {
+                Toast.makeText(getContext(), "Preencha todos os campos obrigatórios.", Toast.LENGTH_LONG).show();
+                return;
             }
-            Toast.makeText(getContext(), "Cardápio salvo com sucesso.", Toast.LENGTH_LONG).show();
-            dismiss();  // Fecha o diálogo
+
+            // Cria um objeto Cardapio
+            Cardapio novoCardapio = new Cardapio(id, titulo, descricao, horario, defaultImage);
+
+            if (cardapio == null) { // Novo Cardápio
+                db.collection("cardapios").document(id)
+                        .set(novoCardapio) // Usa set() em vez de add()
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(getContext(), "Cardápio salvo com sucesso.", Toast.LENGTH_LONG).show();
+                            dismiss(); // Fecha o diálogo
+                        })
+                        .addOnFailureListener(e -> {
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "Erro ao salvar cardápio: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        });
+            } else { // Atualizar Cardápio existente
+                db.collection("cardapios").document(cardapio.getId())
+                        .update("titulo", titulo, "descricao", descricao, "horario", horario)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(getContext(), "Cardápio atualizado com sucesso.", Toast.LENGTH_LONG).show();
+                            dismiss(); // Fecha o diálogo
+                        })
+                        .addOnFailureListener(e -> {
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "Erro ao atualizar cardápio: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        });
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getContext(), "Erro ao salvar cardápio: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Erro inesperado: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+
 
 }

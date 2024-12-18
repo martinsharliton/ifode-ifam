@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.app.cardapio.fragment.LeitorCarteiraFragment;
 import com.app.cardapio.fragment.HomeAdmFragment;
+import com.app.cardapio.fragment.StatisticsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeAdm extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class HomeAdm extends AppCompatActivity {
             } else if (item.getItemId() == R.id.cardapio2) {
                 fragment = new HomeAdmFragment();
             } else if (item.getItemId() == R.id.estatisticas) {
-                fragment = new HomeAdmFragment();
+                fragment = new StatisticsFragment();
             }
             return loadFragment(fragment);
         });

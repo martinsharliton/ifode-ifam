@@ -1,7 +1,6 @@
 package com.app.cardapio;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -23,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -234,7 +232,7 @@ public class Home extends AppCompatActivity {
         db.collection("aluno").document(obterIdUsuario()).get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists() && documentSnapshot.contains("optou_almoco")) {
                 boolean optouAlmoco = Boolean.TRUE.equals(documentSnapshot.getBoolean("optou_almoco"));
-                String mensagem = optouAlmoco ? "Você escolheu não almoçar. Deseja mudar a opção?\n\n\nAs alterações só podem ser feitas até as 11:30 da manhã" : "Deseja realmente não almoçar no refeitório?\n\n\nAs alterações só podem ser feitas até as 11:30 da manhã";
+                String mensagem = optouAlmoco ? "Você escolheu não almoçar. Deseja mudar a opção?\n\n\nAs alterações só podem ser feitas entre as 09:00 e 11:30 da manhã." : "Deseja realmente não almoçar no refeitório?\n\n\nAs alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.";
                 boolean novaResposta = !optouAlmoco;
 
                 AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Confirmar decisão").setMessage(mensagem).setPositiveButton("Confirmar", (dialogInterface, which) -> saveResponseToFirebase(novaResposta)).setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss()).create();
@@ -253,7 +251,7 @@ public class Home extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currentMinute = calendar.get(Calendar.MINUTE);
-        return (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
+        return (currentHour == 3 || currentHour == 13 || (currentHour == 11 && currentMinute <= 30));
     }
 
     private void saveResponseToFirebase(boolean response) {

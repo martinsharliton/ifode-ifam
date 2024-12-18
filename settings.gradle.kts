@@ -16,9 +16,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://jitpack.io") // Usando uri() como exigido pelo Kotlin Script
+        }
     }
 }
 
 rootProject.name = "cardapio"
 include(":app")
- 
