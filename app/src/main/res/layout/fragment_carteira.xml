@@ -79,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_extrabold"
                 android:text="Status: Ativo"
+                android:textAllCaps="true"
                 android:textAlignment="center"
                 android:textColor="@color/primary"
                 android:textSize="16sp" />
@@ -91,7 +92,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Campus: MANAUS - CMZL"
                 android:textColor="@color/secondary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/nomeCursocard"
@@ -101,7 +102,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Curso: Engenharia de Software"
                 android:textColor="@color/secondary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/numeroMatriculacard"
@@ -111,7 +112,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Matrícula: 123456789"
                 android:textColor="@color/secondary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/qtd_creditos"
@@ -121,7 +122,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Quantidade de créditos: 16 restantes"
                 android:textColor="@color/secondary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

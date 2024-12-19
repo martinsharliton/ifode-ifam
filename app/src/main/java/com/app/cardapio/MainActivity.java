@@ -105,11 +105,20 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         DocumentSnapshot document = task.getResult().getDocuments().get(0);
                         String senhaArmazenada = document.getString("senha");
+                        Boolean statusMatricula = document.getBoolean("status_matricula");
+                        String nome = document.getString("nome");
+
+                        if (statusMatricula != null && !statusMatricula) {
+                            Toast.makeText(this, "Usuário está inativo.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
                         if (senhaArmazenada != null && senhaArmazenada.equals(senha)) {
                             String documentId = document.getId();
                             AlunoAuth.getInstance().setDocumentId(documentId);
-                            salvarLogin(documentId, usuarioValue, senhaValue);
-                            Toast.makeText(this, "Bem-vindo, Aluno!", Toast.LENGTH_SHORT).show();
+                            salvarLogin(documentId, usuario, senha);
+                            String primeirosNomes = getDoisPrimeirosNomes(nome);
+                            Toast.makeText(this, "Bem-vindo, " + primeirosNomes + "!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(this, Home.class));
                             finish();
                         } else {
@@ -131,11 +140,20 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         DocumentSnapshot document = task.getResult().getDocuments().get(0);
                         String senhaArmazenada = document.getString("senha");
+                        Boolean statusMatricula = document.getBoolean("status_matricula");
+                        String nome = document.getString("nome");
+
+                        if (statusMatricula != null && !statusMatricula) {
+                            Toast.makeText(this, "Usuário está inativo.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
                         if (senhaArmazenada != null && senhaArmazenada.equals(senha)) {
                             String documentId = document.getId();
                             AlunoAuth.getInstance().setDocumentId(documentId);
-                            salvarLogin(documentId, usuarioValue, senhaValue);
-                            Toast.makeText(this, "Bem-vindo, Administrador!", Toast.LENGTH_SHORT).show();
+                            salvarLogin(documentId, usuario, senha);
+                            String primeirosNomes = getDoisPrimeirosNomes(nome);
+                            Toast.makeText(this, "Bem-vindo, " + primeirosNomes + "!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(this, HomeAdm.class));
                             finish();
                         } else {
@@ -147,6 +165,19 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_LONG).show());
     }
+
+    private String getDoisPrimeirosNomes(String nomeCompleto) {
+        if (nomeCompleto == null || nomeCompleto.trim().isEmpty()) {
+            return "Usuário";
+        }
+        String[] partesNome = nomeCompleto.trim().split("\\s+");
+        if (partesNome.length >= 2) {
+            return partesNome[0] + " " + partesNome[1];
+        } else {
+            return partesNome[0];
+        }
+    }
+
 
     private void toggleSenhaVisibilidade() {
         if (senhaVisivel) {

@@ -1,6 +1,5 @@
 package com.app.cardapio.models;
 
-import com.app.cardapio.enums.TipoPerfil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +14,4 @@ public class Usuario {
     private String senha;
     private String dataNascimento;
     private boolean ativo;
-    private TipoPerfil tipoPerfil;
 }

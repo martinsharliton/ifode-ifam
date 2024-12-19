@@ -31,8 +31,7 @@ import java.util.Objects;
 public class CarteiraFragment extends Fragment {
 
     private TextView tvNome, tvMatricula, tvCurso, tvCampus, tvCreditos;
-    private ImageView ivprofileImage, imageQrcode;
-    String userId;
+    ImageView ivprofileImage, imageQrcode;
 
     @SuppressLint("SetTextI18n")
     @Nullable

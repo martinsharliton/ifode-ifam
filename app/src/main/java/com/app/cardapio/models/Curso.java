@@ -1,7 +1,5 @@
 package com.app.cardapio.models;
 
-import com.app.cardapio.enums.TipoCurso;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +15,4 @@ public class Curso {
     private int cargaHoraria;
     private String coordenador;
     private boolean ativo;
-    private TipoCurso tipoCurso;
 }

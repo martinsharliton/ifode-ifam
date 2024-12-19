@@ -235,7 +235,11 @@ public class Home extends AppCompatActivity {
                 String mensagem = optouAlmoco ? "Você escolheu não almoçar. Deseja mudar a opção?\n\n\nAs alterações só podem ser feitas entre as 09:00 e 11:30 da manhã." : "Deseja realmente não almoçar no refeitório?\n\n\nAs alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.";
                 boolean novaResposta = !optouAlmoco;
 
-                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Confirmar decisão").setMessage(mensagem).setPositiveButton("Confirmar", (dialogInterface, which) -> saveResponseToFirebase(novaResposta)).setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss()).create();
+                AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle("Confirmar decisão")
+                        .setMessage(mensagem)
+                        .setPositiveButton("Confirmar", (dialogInterface, which) -> saveResponseToFirebase(novaResposta))
+                        .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss()).create();
 
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.dialog_rounded_background);
 
@@ -251,7 +255,7 @@ public class Home extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currentMinute = calendar.get(Calendar.MINUTE);
-        return (currentHour == 3 || currentHour == 13 || (currentHour == 11 && currentMinute <= 30));
+        return (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
     }
 
     private void saveResponseToFirebase(boolean response) {
