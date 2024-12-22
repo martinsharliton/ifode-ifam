@@ -19,19 +19,17 @@ import com.app.cardapio.R;
 import com.app.cardapio.models.AlunoAuth;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
-
-import java.util.Objects;
-
 
 public class CarteiraFragment extends Fragment {
 
     private TextView tvNome, tvMatricula, tvCurso, tvCampus, tvCreditos;
     ImageView ivprofileImage, imageQrcode;
+    private ListenerRegistration listenerRegistration;
 
     @SuppressLint("SetTextI18n")
     @Nullable
@@ -55,54 +53,52 @@ public class CarteiraFragment extends Fragment {
 
         DocumentReference alunoRef = db.collection("aluno").document(userId);
 
-        alunoRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    // Preencher os TextViews com os dados do aluno
-                    String nome = document.getString("nome");
-                    String matricula = document.getString("matricula");
-                    String curso = document.getString("curso");
-                    String campus = document.getString("campus");
+        // Adiciona um listener ao documento para monitorar mudanças em tempo real
+        listenerRegistration = alunoRef.addSnapshotListener((documentSnapshot, e) -> {
+            if (e != null) {
+                Toast.makeText(getActivity(), "Erro ao monitorar dados: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                    // Verifique o tipo de "qtd_creditos" e converta para String
-                    Object qtdCreditosObj = document.get("qtd_creditos");
-                    String qtdCreditos = qtdCreditosObj != null ? qtdCreditosObj.toString() : "0";
+            if (documentSnapshot != null && documentSnapshot.exists()) {
+                // Atualizar os TextViews com os dados do aluno
+                String nome = documentSnapshot.getString("nome");
+                String matricula = documentSnapshot.getString("matricula");
+                String curso = documentSnapshot.getString("curso");
+                String campus = documentSnapshot.getString("campus");
 
-                    String imagemUrl = document.getString("foto");
+                // Verifique o tipo de "qtd_creditos" e converta para String
+                Object qtdCreditosObj = documentSnapshot.get("qtd_creditos");
+                String qtdCreditos = qtdCreditosObj != null ? qtdCreditosObj.toString() : "0";
 
-                    // Atualizando a UI com as informações do aluno
-                    tvNome.setText(nome);
-                    tvMatricula.setText("Matricula: " + matricula);
-                    tvCurso.setText("Curso: " + curso);
-                    tvCampus.setText("Campus: " + campus);
-                    tvCreditos.setText("Quantidade de créditos: " + qtdCreditos + " restantes");
+                String imagemUrl = documentSnapshot.getString("foto");
 
-                    // Carregar a imagem de perfil usando Glide
+                // Atualizando a UI com as informações do aluno
+                tvNome.setText(nome);
+                tvMatricula.setText("Matricula: " + matricula);
+                tvCurso.setText("Curso: " + curso);
+                tvCampus.setText("Campus: " + campus);
+                tvCreditos.setText("Quantidade de créditos: " + qtdCreditos + " restantes");
 
-                    if (imagemUrl != null && imagemUrl.contains("no_picture.png")) {
-                        // Carregar imagem padrão
-                        Glide.with(requireContext())
-                                .load(R.drawable.user_app)
-                                .into(ivprofileImage);
-                    } else {
-                        // Carregar a imagem da URL
-                        Glide.with(requireContext())
-                                .load(imagemUrl) // URL da imagem
-                                .into(ivprofileImage);
-                    }
+                // Carregar a imagem de perfil usando Glide
+                if (imagemUrl != null && imagemUrl.contains("no_picture.png")) {
+                    // Carregar imagem padrão
+                    Glide.with(requireContext())
+                            .load(R.drawable.user_app)
+                            .into(ivprofileImage);
                 } else {
-                    // Caso o documento não exista, mostrar um erro
-                    Toast.makeText(getActivity(), "Dados não encontrados.", Toast.LENGTH_SHORT).show();
+                    // Carregar a imagem da URL
+                    Glide.with(requireContext())
+                            .load(imagemUrl) // URL da imagem
+                            .into(ivprofileImage);
                 }
             } else {
-                // Caso ocorra um erro na busca
-                Toast.makeText(getActivity(), "Erro ao buscar dados: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                // Caso o documento não exista
+                Toast.makeText(getActivity(), "Dados não encontrados.", Toast.LENGTH_SHORT).show();
             }
         });
 
-
-        // Dados para o QR Code (substitua por seus dados)
+        // Dados para o QR Code
         try {
             BitMatrix bitMatrix = new MultiFormatWriter().encode(userId, BarcodeFormat.QR_CODE, 300, 300);
             Bitmap bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
@@ -117,5 +113,14 @@ public class CarteiraFragment extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Remover o listener quando a fragment for destruída
+        if (listenerRegistration != null) {
+            listenerRegistration.remove();
+        }
     }
 }
