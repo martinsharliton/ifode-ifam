@@ -29,9 +29,14 @@ import com.app.cardapio.fragment.CarteiraFragment;
 import com.app.cardapio.fragment.HomeFragment;
 import com.app.cardapio.models.AlunoAuth;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 public class Home extends AppCompatActivity {
@@ -43,13 +48,11 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
-            // Se estiver em modo escuro, forçar modo claro
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         setContentView(R.layout.activity_home);
 
-        // Configura a Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -57,26 +60,26 @@ public class Home extends AppCompatActivity {
             showConfirmationDialog();
         }
 
-        // Configura a navegação por fragmentos
         BottomNavigationView navigationBar = findViewById(R.id.navigationBar);
-        loadFragment(new HomeFragment()); // Carrega o fragmento inicial
+        toolbar.setTitle("Área do Aluno");
+        toolbar.setSubtitle("Home");
+        loadFragment(new HomeFragment());
 
         navigationBar.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
             if (item.getItemId() == R.id.home) {
+                toolbar.setTitle("Área do Aluno");
+                toolbar.setSubtitle("Cardápio");
                 fragment = new HomeFragment();
             } else if (item.getItemId() == R.id.menu) {
+                toolbar.setTitle("Área do Aluno");
+                toolbar.setSubtitle("Carteirinha");
                 fragment = new CarteiraFragment();
             }
             return loadFragment(fragment);
         });
 
-        // Solicitar permissões para notificações
         requestNotificationPermission();
-
-        if (getIntent().getBooleanExtra("SHOW_DIALOG", false)) {
-            showConfirmationDialog();
-        }
 
         createNotificationChannel();
         scheduleDailyNotification();
@@ -88,25 +91,18 @@ public class Home extends AppCompatActivity {
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currentMinute = calendar.get(Calendar.MINUTE);
 
-        // Verifica se o horário está entre 9:00 e 11:30
         boolean isBetween9And1130 = (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
 
-        // Encontra o item no menu
         MenuItem item = menu.findItem(R.id.action_notifications);
         if (item != null) {
-            // Atualiza o ícone com base no horário
             item.setIcon(isBetween9And1130 ? R.drawable.ic_notification_with_badge : R.drawable.ic_notificacao);
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-
-        // Atualizar o ícone após o menu ser inflado
         updateNotificationIconBasedOnTime(menu);
-
         return true;
     }
 
@@ -120,7 +116,6 @@ public class Home extends AppCompatActivity {
             }
             return true;
         } else if (item.getItemId() == R.id.action_exit) {
-            // Lógica para sair e redirecionar para a MainActivity
             logoutAndRedirectToLogin();
             return true;
         }
@@ -137,7 +132,6 @@ public class Home extends AppCompatActivity {
 
     private void requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Checar se a permissão já foi concedida
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
             }
@@ -162,12 +156,10 @@ public class Home extends AppCompatActivity {
         String savedLogin = preferences.getString("nomeUsuario", "");
         String savedPassword = preferences.getString("senhaUsuario", "");
 
-        // Limpando o SharedPreferences
         SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("userId"); // Remove a chave 'senhaUsuario'
+        editor.remove("userId");
         editor.apply();
 
-        // Redirecionando para MainActivity e passando as credenciais
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("nomeUsuario", savedLogin);
         intent.putExtra("senhaUsuario", savedPassword);
@@ -190,24 +182,20 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Cancelar qualquer alarme existente antes de agendar um novo
         if (alarmManager != null) {
             alarmManager.cancel(pendingIntent);
         }
 
-        // Configurar horário para 9:00 da manhã
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 9);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-        // Se o horário de hoje já passou, agendar para amanhã
         if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        // Agendar o alarme diário
         if (alarmManager != null) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
@@ -220,6 +208,68 @@ public class Home extends AppCompatActivity {
                 notificationEnabled = Boolean.TRUE.equals(documentSnapshot.getBoolean("optou_almoco"));
             }
         }).addOnFailureListener(e -> Toast.makeText(this, "Erro ao obter status!", Toast.LENGTH_SHORT).show());
+    }
+
+    private void saveResponseToFirebase(boolean response) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = obterIdUsuario();
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String currentDate = dateFormat.format(calendar.getTime());
+
+        String documentPath = "respostas/" + userId + "_" + currentDate;
+
+        db.document(documentPath).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                if (isWithinAllowedTime()) {
+                    updateResponseInCollection(db, documentPath, response);
+                } else {
+                    Toast.makeText(this, "Fora do horário permitido. Resposta não pode ser atualizada.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                if (isWithinAllowedTime()) {
+                    createNewResponseInCollection(db, documentPath, userId, currentDate, response);
+                } else {
+                    Toast.makeText(this, "Fora do horário permitido. Resposta não pode ser criada.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(e -> Toast.makeText(this, "Erro ao verificar resposta existente.", Toast.LENGTH_SHORT).show());
+    }
+
+    private void updateResponseInCollection(FirebaseFirestore db, String documentPath, boolean response) {
+        db.document(documentPath).update("response", response, "timestamp", FieldValue.serverTimestamp())
+                .addOnSuccessListener(aVoid -> {
+                    notificationEnabled = response;
+                    Toast.makeText(this, "Resposta atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao atualizar resposta.", Toast.LENGTH_SHORT).show());
+    }
+
+    private void createNewResponseInCollection(FirebaseFirestore db, String documentPath, String userId, String currentDate, boolean response) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("userId", userId);
+        data.put("date", currentDate);
+        data.put("response", response);
+        data.put("timestamp", FieldValue.serverTimestamp());
+
+        db.document(documentPath).set(data)
+                .addOnSuccessListener(aVoid -> {
+                    notificationEnabled = response;
+                    Toast.makeText(this, "Resposta salva com sucesso!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao salvar resposta.", Toast.LENGTH_SHORT).show());
+    }
+
+    private boolean isWithinAllowedTime() {
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
+        return (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
+    }
+
+    private String obterIdUsuario() {
+        return AlunoAuth.getInstance().getDocumentId();
     }
 
     private void showConfirmationDialog() {
@@ -249,24 +299,5 @@ public class Home extends AppCompatActivity {
 
             }
         }).addOnFailureListener(e -> Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_SHORT).show());
-    }
-
-    private boolean isWithinAllowedTime() {
-        Calendar calendar = Calendar.getInstance();
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = calendar.get(Calendar.MINUTE);
-        return (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
-    }
-
-    private void saveResponseToFirebase(boolean response) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("aluno").document(obterIdUsuario()).update("optou_almoco", response).addOnSuccessListener(aVoid -> {
-            notificationEnabled = response;
-            Toast.makeText(this, "Resposta salva!", Toast.LENGTH_SHORT).show();
-        }).addOnFailureListener(e -> Toast.makeText(this, "Erro ao salvar resposta!", Toast.LENGTH_SHORT).show());
-    }
-
-    private String obterIdUsuario() {
-        return AlunoAuth.getInstance().getDocumentId();
     }
 }

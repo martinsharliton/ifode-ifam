@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.cardapio.R;
 import com.app.cardapio.adapter.CardapioAdminAdapter;
+import com.app.cardapio.dialog.CadastrarCardapioDialog;
 import com.app.cardapio.models.Cardapio;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;

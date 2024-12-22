@@ -2,12 +2,17 @@ package com.app.cardapio;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.View;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
@@ -41,6 +46,23 @@ public class SatisfacaoUsuario extends AppCompatActivity {
 
         setContentView(R.layout.activity_satisfacao_usuario);
 
+        // Configurar o ActionBar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Pesquisa"); // Define o título
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.primary))); // Fundo da barra
+            actionBar.setDisplayHomeAsUpEnabled(true); // Habilitar seta de voltar
+
+            // Definir cor do texto para branco
+            SpannableString spannableTitle = new SpannableString("Pesquisa");
+            spannableTitle.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, android.R.color.white)), 0, spannableTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            actionBar.setTitle(spannableTitle);
+
+            // Definir cor da seta de voltar para branco
+            actionBar.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back));
+        }
+
+
         db = FirebaseFirestore.getInstance();
 
         setupImageClickListeners();
@@ -73,7 +95,6 @@ public class SatisfacaoUsuario extends AppCompatActivity {
             layout.getChildAt(i).setForeground(null);
         }
     }
-
 
     private void saveFeedback() {
         try {
@@ -110,5 +131,15 @@ public class SatisfacaoUsuario extends AppCompatActivity {
 
     private String obterIdUsuario() {
         return AlunoAuth.getInstance().getDocumentId();
+    }
+
+    // Gerenciar o clique na seta de voltar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // Voltar para a tela anterior
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

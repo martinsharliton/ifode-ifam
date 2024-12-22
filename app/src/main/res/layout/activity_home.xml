@@ -17,6 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Área do Aluno"
+        app:subtitle="Área do Aluno"
+        app:subtitleTextColor="@color/white"
         app:titleTextColor="@color/white"
         app:menu="@menu/toolbar_menu" />
 

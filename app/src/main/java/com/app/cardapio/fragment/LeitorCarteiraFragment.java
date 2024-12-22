@@ -27,6 +27,7 @@ import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LeitorCarteiraFragment extends Fragment {
 
@@ -106,16 +107,15 @@ public class LeitorCarteiraFragment extends Fragment {
                     String qtdCreditos = qtdCreditosObj != null ? qtdCreditosObj.toString() : "0";
                     String imagemUrl = document.getString("foto");
 
-                    // Show dialog with data
                     AlunoInfoDialogFragment dialog = new AlunoInfoDialogFragment(
-                            nome, matricula, curso, campus, qtdCreditos, imagemUrl, () -> isDialogOpen = false);
+                            documentId, nome, matricula, curso, campus, qtdCreditos, imagemUrl, () -> isDialogOpen = false);
                     dialog.show(getParentFragmentManager(), "AlunoInfoDialog");
                 } else {
                     Toast.makeText(getContext(), "Documento não encontrado no Firebase.", Toast.LENGTH_SHORT).show();
                     isDialogOpen = false; // Libera a flag em caso de erro
                 }
             } else {
-                Toast.makeText(getContext(), "Erro ao buscar dados: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Erro ao buscar dados: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                 isDialogOpen = false; // Libera a flag em caso de erro
             }
         });

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +18,15 @@ import androidx.fragment.app.DialogFragment;
 
 import com.app.cardapio.R;
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class AlunoInfoDialogFragment extends DialogFragment {
 
+    final String id;
     private final String nome;
     private final String matricula;
     private final String curso;
@@ -30,9 +35,10 @@ public class AlunoInfoDialogFragment extends DialogFragment {
     private final String imagemUrl;
     private final OnDialogDismissListener dismissListener;
 
-    public AlunoInfoDialogFragment(String nome, String matricula, String curso,
+    public AlunoInfoDialogFragment(String id, String nome, String matricula, String curso,
                                    String campus, String qtdCreditos, String imagemUrl,
                                    OnDialogDismissListener dismissListener) {
+        this.id = id;
         this.nome = nome;
         this.matricula = matricula;
         this.curso = curso;
@@ -78,15 +84,36 @@ public class AlunoInfoDialogFragment extends DialogFragment {
         }
 
         // Button actions
-        btnAceitar.setOnClickListener(v -> {
-            dismiss();
-        });
+        btnAceitar.setOnClickListener(v -> descontarCreditos());
 
-        btnRecusar.setOnClickListener(v -> {
-            dismiss();
-        });
+        btnRecusar.setOnClickListener(v -> dismiss());
 
         return view;
+    }
+
+    private void descontarCreditos() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference alunoRef = db.collection("aluno").document(id);
+
+        alunoRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                AtomicReference<Long> qtdCreditosAtual = new AtomicReference<>(documentSnapshot.getLong("qtd_creditos"));
+                if (qtdCreditosAtual.get() != null && qtdCreditosAtual.get() > 0) {
+                    alunoRef.update("qtd_creditos", qtdCreditosAtual.get() - 1)
+                            .addOnSuccessListener(aVoid -> {
+                                qtdCreditosAtual.set(documentSnapshot.getLong("qtd_creditos"));
+                                Toast.makeText(getContext(), "Créditos atualizados com sucesso.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Novo saldo: " + qtdCreditosAtual, Toast.LENGTH_LONG).show();
+                                dismiss();
+                            })
+                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Erro ao atualizar créditos.", Toast.LENGTH_SHORT).show());
+                } else {
+                    Toast.makeText(getContext(), "Quantidade de créditos é zero ou inválida.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getContext(), "Documento não encontrado.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> Toast.makeText(getContext(), "Erro ao acessar o documento.", Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -114,4 +141,3 @@ public class AlunoInfoDialogFragment extends DialogFragment {
         }
     }
 }
-

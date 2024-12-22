@@ -1,4 +1,4 @@
-package com.app.cardapio.fragment;
+package com.app.cardapio.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -3,6 +3,7 @@ package com.app.cardapio.fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import androidx.appcompat.app.ActionBar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
     private TextView mensagem;
     private CardapioAdapter adapter;
     private List<Cardapio> cardapioList;
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
 
         // Configuração do RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -68,9 +70,8 @@ public class HomeFragment extends Fragment {
                     String titulo = doc.getString("titulo");
                     String descricao = doc.getString("descricao");
                     String horario = doc.getString("horario");
-                    String imagem = doc.getString("imagem");
 
-                    int imagemId = getImageResourceId(imagem);
+                    int imagemId = getImageResourceId();
                     cardapioList.add(new Cardapio(id, titulo, descricao, horario, imagemId));
                 }
             }
@@ -87,18 +88,7 @@ public class HomeFragment extends Fragment {
     }
 
     // Função para mapear o nome da imagem no Firestore para o ID do drawable
-    private int getImageResourceId(String imageName) {
-        if (imageName == null || imageName.isEmpty()) {
-            return R.drawable.logo_ifam; // Imagem padrão
-        }
-
-        switch (imageName) {
-            case "logo_ifam":
-                return R.drawable.logo_ifam;
-            case "dioneco":
-                return R.drawable.dioneco;
-            default:
-                return R.drawable.logo_ifam; // Imagem padrão
-        }
+    private int getImageResourceId() {
+        return R.drawable.logo_ifam; // Imagem padrão
     }
 }

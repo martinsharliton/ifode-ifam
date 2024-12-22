@@ -40,7 +40,7 @@
             android:theme="@style/Theme.Cardapio.NoActionBar" />
         <activity
             android:name=".SatisfacaoUsuario"
-            android:theme="@style/Theme.Cardapio.NoActionBar" />
+            android:theme="@style/Theme.Cardapio" />
         <activity
             android:name=".Home"
             android:exported="false"

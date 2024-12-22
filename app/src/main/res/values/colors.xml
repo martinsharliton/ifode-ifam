@@ -11,11 +11,11 @@
     <color name="transparente">#00000000</color>
     <color name="color_selected">#1C5A52</color>
     <color name="color_unselected">#B0BEC5</color>
-    <color name="color1">#FF8A80</color>
-    <color name="color2">#FF80AB</color>
-    <color name="color3">#B388FF</color>
-    <color name="color4">#8C9EFF</color>
-    <color name="color5">#80D8FF</color>
+    <color name="color1">#DD2C00</color><!-- vermelho -->
+    <color name="color2">#FF6D00</color><!-- Laranja -->
+    <color name="color3">#FFAB00</color><!-- amarelo escuro -->
+    <color name="color4">#66BB6A</color>
+    <color name="color5">#388E3C</color>
     <integer-array name="pie_chart_colors">
         <item>@color/color1</item>
         <item>@color/color2</item>
@@ -23,5 +23,5 @@
         <item>@color/color4</item>
         <item>@color/color5</item>
     </integer-array>
-
 </resources>
+

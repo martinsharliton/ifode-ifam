@@ -37,15 +37,23 @@ public class HomeAdm extends AppCompatActivity {
         BottomNavigationView navigationBar2 = findViewById(R.id.navigationBar2);
 
         // Carrega o fragment inicial
+        toolbar2.setTitle("Área do Administrador");
+        toolbar2.setSubtitle("Cardápio");
         loadFragment(new HomeAdmFragment());
 
         navigationBar2.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
             if (item.getItemId() == R.id.leitorCarteira) {
+                toolbar2.setTitle("Área do Administrador");
+                toolbar2.setSubtitle("Leitor");
                 fragment = new LeitorCarteiraFragment();
             } else if (item.getItemId() == R.id.cardapio2) {
+                toolbar2.setTitle("Área do Administrador");
+                toolbar2.setSubtitle("Cardápio");
                 fragment = new HomeAdmFragment();
             } else if (item.getItemId() == R.id.estatisticas) {
+                toolbar2.setTitle("Área do Administrador");
+                toolbar2.setSubtitle("Gáraficos");
                 fragment = new StatisticsFragment();
             }
             return loadFragment(fragment);

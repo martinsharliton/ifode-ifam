@@ -19,9 +19,154 @@
         android:text="Pesquisa"
         android:textColor="@color/black"
         android:textSize="20sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Legenda Fora do Card -->
+    <LinearLayout
+        android:id="@+id/layoutLegenda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:background="@drawable/legenda"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader">
+
+        <!-- Emocard 1 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/emocard_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/emocard"
+                android:src="@drawable/emocards_1" />
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:text="Péssimo"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Emocard 2 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/emocard_2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/emocard"
+                android:src="@drawable/emocards_2" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:text="Ruim"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Emocard 3 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/emocard_3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/emocard"
+                android:src="@drawable/emocards_3" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:text="Regular"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Emocard 4 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/emocard_4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/emocard"
+                android:src="@drawable/emocards_4" />
+
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:text="Bom"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Emocard 5 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/emocard_5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/emocard"
+                android:src="@drawable/emocards_5" />
+
+            <TextView
+                android:id="@+id/text5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:text="Excelente"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <!-- CardView -->
     <androidx.cardview.widget.CardView
@@ -35,21 +180,21 @@
         app:layout_constraintBottom_toTopOf="@id/buttonCadastrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHeader">
+        app:layout_constraintTop_toBottomOf="@id/layoutLegenda">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/white"
+            android:orientation="vertical"
             android:padding="4dp">
 
             <!-- Pergunta 1 -->
             <TextView
                 style="@style/QuestionStyle"
-                android:textColor="@color/black"
                 android:layout_marginBottom="15dp"
-                android:text="O tempo de Atendimento foi satisfatório" />
+                android:text="O tempo de Atendimento foi satisfatório"
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:id="@+id/layoutQuestion1"
@@ -89,9 +234,9 @@
             <!-- Pergunta 2 -->
             <TextView
                 style="@style/QuestionStyle"
-                android:textColor="@color/black"
                 android:layout_marginBottom="15dp"
-                android:text="A qualidade da comida foi satisfatória" />
+                android:text="A qualidade da comida foi satisfatória"
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:id="@+id/layoutQuestion2"
@@ -131,9 +276,9 @@
             <!-- Pergunta 3 -->
             <TextView
                 style="@style/QuestionStyle"
-                android:textColor="@color/black"
                 android:layout_marginBottom="15dp"
-                android:text="O ambiente do restaurante é agradável e confortável" />
+                android:text="O ambiente do restaurante é agradável e confortável"
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:id="@+id/layoutQuestion3"
@@ -173,14 +318,14 @@
             <!-- Pergunta 4 -->
             <TextView
                 style="@style/QuestionStyle"
-                android:textColor="@color/black"
                 android:layout_marginBottom="15dp"
-                android:text="A qualidade do atendimento no restaurante é satisfatória" />
+                android:text="A qualidade do atendimento no restaurante é satisfatória"
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:id="@+id/layoutQuestion4"
-                android:layout_marginBottom="15dp"
-                style="@style/EmocardContainerStyle">
+                style="@style/EmocardContainerStyle"
+                android:layout_marginBottom="15dp">
 
                 <ImageView
                     android:id="@+id/emocard4_1"

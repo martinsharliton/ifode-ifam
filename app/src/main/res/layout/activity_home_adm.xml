@@ -16,6 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Área do Administrador"
+        app:subtitle="Área do Administrador"
+        app:subtitleTextColor="@color/white"
         app:titleTextColor="@color/white" />
 
     <FrameLayout

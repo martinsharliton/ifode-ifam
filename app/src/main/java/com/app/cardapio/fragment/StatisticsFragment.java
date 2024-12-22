@@ -27,17 +27,15 @@ public class StatisticsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate o layout do fragmento
+        // Infla o layout do fragmento
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         // Inicialize os gráficos
         BarChart barChart = view.findViewById(R.id.bar_chart);
         PieChart pieChart = view.findViewById(R.id.pie_chart);
 
-        // Configuração do gráfico de barras (frequência de alunos por mês)
+        // Configuração do gráfico de barras (frequência de alunos por mês) e de pizza (avaliações do restaurante)
         setupBarChart(barChart);
-
-        // Configuração do gráfico de pizza (avaliações do restaurante)
         setupPieChart(pieChart);
 
         return view;
@@ -49,10 +47,12 @@ public class StatisticsFragment extends Fragment {
         entries.add(new BarEntry(1, 120)); // Janeiro
         entries.add(new BarEntry(2, 150)); // Fevereiro
         entries.add(new BarEntry(3, 100)); // Março
-        entries.add(new BarEntry(4, 180)); // Abril
+        entries.add(new BarEntry(4, 165)); // Abril
+        entries.add(new BarEntry(5, 130)); // Maio
+        entries.add(new BarEntry(6, 140)); // Junho
 
         BarDataSet dataSet = new BarDataSet(entries, "Frequência de Alunos");
-        dataSet.setColor(getResources().getColor(R.color.red));
+        dataSet.setColor(getResources().getColor(R.color.green_accent));
         BarData barData = new BarData(dataSet);
         barData.setBarWidth(0.9f);
 
@@ -63,15 +63,15 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void setupPieChart(PieChart pieChart) {
-        // Dados fictícios: avaliações em escala Likert
         List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(30, "1 estrela"));
-        entries.add(new PieEntry(20, "2 estrelas"));
-        entries.add(new PieEntry(25, "3 estrelas"));
-        entries.add(new PieEntry(15, "4 estrelas"));
-        entries.add(new PieEntry(10, "5 estrelas"));
+        entries.add(new PieEntry(30, "Péssimo"));
+        entries.add(new PieEntry(20, "Ruim"));
+        entries.add(new PieEntry(25, "Regular"));
+        entries.add(new PieEntry(15, "Bom"));
+        entries.add(new PieEntry(10, "Excelente"));
 
-        PieDataSet dataSet = new PieDataSet(entries, "Avaliações");
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(getResources().getIntArray(R.array.pie_chart_colors)); // Definir cores personalizadas
         dataSet.setSliceSpace(2f);
         dataSet.setValueTextSize(12f);
