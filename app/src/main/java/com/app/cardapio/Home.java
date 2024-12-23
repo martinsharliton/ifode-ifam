@@ -40,83 +40,65 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Home extends AppCompatActivity {
+
     private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
+    private static final int HORA_INICIO = 9;
+    private static final int HORA_MEIO = 10;
+    private static final int HORA_FIM = 11;
+    private static final int MINUTO_FIM = 30;
+
     boolean notificationEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
+        setNightMode();
         setContentView(R.layout.activity_home);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initializeToolbar();
 
         if (getIntent().getBooleanExtra("SHOW_DIALOG", false)) {
             showConfirmationDialog();
         }
 
-        BottomNavigationView navigationBar = findViewById(R.id.navigationBar);
+        setupNavigationBar();
+        requestNotificationPermission();
+        createNotificationChannel();
+        scheduleDailyNotification();
+        fetchNotificationStatus();
+    }
+
+    private void setNightMode() {
+        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    private void initializeToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setSubtitle("Cardápio");
+    }
+
+    private void setupNavigationBar() {
+        BottomNavigationView navigationBar = findViewById(R.id.navigationBar);
         loadFragment(new HomeFragment());
 
         navigationBar.setOnItemSelectedListener(item -> {
-            Fragment fragment = null;
+            Fragment fragment;
+            Toolbar toolbar = findViewById(R.id.toolbar);
+
             if (item.getItemId() == R.id.home) {
                 toolbar.setSubtitle("Cardápio");
                 fragment = new HomeFragment();
             } else if (item.getItemId() == R.id.menu) {
                 toolbar.setSubtitle("Minha Carteirinha");
                 fragment = new CarteiraFragment();
+            } else {
+                return false;
             }
+
             return loadFragment(fragment);
         });
-
-        requestNotificationPermission();
-
-        createNotificationChannel();
-        scheduleDailyNotification();
-        fetchNotificationStatus();
-    }
-
-    private void updateNotificationIconBasedOnTime(Menu menu) {
-        Calendar calendar = Calendar.getInstance();
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = calendar.get(Calendar.MINUTE);
-
-        boolean isBetween9And1130 = (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
-
-        MenuItem item = menu.findItem(R.id.action_notifications);
-        if (item != null) {
-            item.setIcon(isBetween9And1130 ? R.drawable.ic_notification_with_badge : R.drawable.ic_notificacao);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        updateNotificationIconBasedOnTime(menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_notifications) {
-            if (isWithinAllowedTime()) {
-                showConfirmationDialog();
-            } else {
-                Toast.makeText(this, "As alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.", Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        } else if (item.getItemId() == R.id.action_exit) {
-            logoutAndRedirectToLogin();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private boolean loadFragment(Fragment fragment) {
@@ -128,45 +110,28 @@ public class Home extends AppCompatActivity {
     }
 
     private void requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permissão de notificações concedida!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Permissão de notificações negada!", Toast.LENGTH_SHORT).show();
-            }
+            String message = (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    ? "Permissão de notificações concedida!"
+                    : "Permissão de notificações negada!";
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void logoutAndRedirectToLogin() {
-        SharedPreferences preferences = getSharedPreferences("appPreferences", MODE_PRIVATE);
-        String savedLogin = preferences.getString("nomeUsuario", "");
-        String savedPassword = preferences.getString("senhaUsuario", "");
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("userId");
-        editor.apply();
-
-        Intent intent = new Intent(this, Login.class);
-        intent.putExtra("nomeUsuario", savedLogin);
-        intent.putExtra("senhaUsuario", savedPassword);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
-
     private void createNotificationChannel() {
-        NotificationChannel channel = new NotificationChannel("daily_notification", "Notificações Diárias", NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = new NotificationChannel(
+                "daily_notification",
+                "Notificações Diárias",
+                NotificationManager.IMPORTANCE_HIGH
+        );
         channel.setDescription("Lembrete para confirmar almoço no refeitório");
         NotificationManager manager = getSystemService(NotificationManager.class);
         if (manager != null) {
@@ -181,69 +146,170 @@ public class Home extends AppCompatActivity {
 
         if (alarmManager != null) {
             alarmManager.cancel(pendingIntent);
-        }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 9);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, HORA_INICIO);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
 
-        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }
+            if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
 
-        if (alarmManager != null) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 
     private void fetchNotificationStatus() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("aluno").document(obterIdUsuario()).get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists() && documentSnapshot.contains("optou_almoco")) {
-                notificationEnabled = Boolean.TRUE.equals(documentSnapshot.getBoolean("optou_almoco"));
-            }
-        }).addOnFailureListener(e -> Toast.makeText(this, "Erro ao obter status!", Toast.LENGTH_SHORT).show());
+        db.collection("aluno").document(getUserId()).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        notificationEnabled = Boolean.TRUE.equals(documentSnapshot.getBoolean("optou_almoco"));
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao obter status!", Toast.LENGTH_SHORT).show());
     }
 
-    private void saveResponseToFirebase(boolean response) {
+    private String getUserId() {
+        return AlunoAuth.getInstance().getDocumentId();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        updateNotificationIcon(menu);
+        return true;
+    }
+
+    private void updateNotificationIcon(Menu menu) {
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        boolean isNotificationTime = (hour == HORA_INICIO || hour == HORA_MEIO || (hour == HORA_FIM && minute <= MINUTO_FIM));
+        MenuItem item = menu.findItem(R.id.action_notifications);
+
+        if (item != null) {
+            item.setIcon(isNotificationTime ? R.drawable.ic_notification_with_badge : R.drawable.ic_notificacao);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_notifications) {
+            if (isWithinAllowedTime()) {
+                showConfirmationDialog();
+            } else {
+                Toast.makeText(this, "As alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        } else if (id == R.id.action_exit) {
+            logoutAndRedirectToLogin();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isWithinAllowedTime() {
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        return (hour == HORA_INICIO || hour == HORA_MEIO || (hour == HORA_FIM && minute <= MINUTO_FIM));
+    }
+
+    private void logoutAndRedirectToLogin() {
+        SharedPreferences preferences = getSharedPreferences("appPreferences", MODE_PRIVATE);
+        String savedLogin = preferences.getString("nomeUsuario", "");
+        String savedPassword = preferences.getString("senhaUsuario", "");
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+
+        Intent intent = new Intent(this, Login.class);
+        intent.putExtra("nomeUsuario", savedLogin);
+        intent.putExtra("senhaUsuario", savedPassword);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void showConfirmationDialog() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = obterIdUsuario();
+        String userId = getUserId();
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String currentDate = dateFormat.format(calendar.getTime());
-
         String documentPath = "respostas/" + userId + "_" + currentDate;
 
-        db.document(documentPath).get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                if (isWithinAllowedTime()) {
-                    updateResponseInCollection(db, documentPath, response);
-                } else {
-                    Toast.makeText(this, "Fora do horário permitido. Resposta não pode ser atualizada.", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                if (isWithinAllowedTime()) {
-                    createNewResponseInCollection(db, documentPath, userId, currentDate, response);
-                } else {
-                    Toast.makeText(this, "Fora do horário permitido. Resposta não pode ser criada.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(e -> Toast.makeText(this, "Erro ao verificar resposta existente.", Toast.LENGTH_SHORT).show());
-    }
+        db.document(documentPath).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    boolean optedForLunch;
 
-    private void updateResponseInCollection(FirebaseFirestore db, String documentPath, boolean response) {
-        db.document(documentPath).update("response", response, "timestamp", FieldValue.serverTimestamp())
-                .addOnSuccessListener(aVoid -> {
-                    notificationEnabled = response;
-                    Toast.makeText(this, "Resposta atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+                    if (documentSnapshot.exists()) {
+                        optedForLunch = Boolean.TRUE.equals(documentSnapshot.getBoolean("response"));
+                    } else {
+                        optedForLunch = false;
+                    }
+
+                    boolean isAllowedTime = isWithinAllowedTime();
+
+                    String message = optedForLunch
+                            ? "Você escolheu não almoçar. Deseja mudar a opção?"
+                            : "Deseja realmente não almoçar no refeitório?";
+
+                    if (isAllowedTime) {
+                        AlertDialog dialog = new AlertDialog.Builder(this)
+                                .setTitle("Confirmar decisão")
+                                .setMessage(message + "\n\nAs alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.")
+                                .setPositiveButton("Confirmar", (dialogInterface, which) -> saveResponseToFirebase(!optedForLunch))
+                                .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss())
+                                .create();
+
+                        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.dialog_rounded_background);
+
+                        dialog.show();
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.primary));
+                        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.primary));
+                    } else {
+                        Toast.makeText(this, "As alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.", Toast.LENGTH_SHORT).show();
+                    }
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao atualizar resposta.", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_SHORT).show());
     }
 
-    private void createNewResponseInCollection(FirebaseFirestore db, String documentPath, String userId, String currentDate, boolean response) {
+
+    private void saveResponseToFirebase(boolean response) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = getUserId();
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String currentDate = dateFormat.format(calendar.getTime());
+        String documentPath = "respostas/" + userId + "_" + currentDate;
+
+        db.document(documentPath).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        updateResponse(db, documentPath, response);
+                    } else {
+                        createResponse(db, documentPath, userId, currentDate, response);
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao verificar resposta existente.", Toast.LENGTH_SHORT).show());
+    }
+
+    private void updateResponse(FirebaseFirestore db, String documentPath, boolean response) {
+        db.document(documentPath).update("response", response, "timestamp", FieldValue.serverTimestamp())
+                .addOnSuccessListener(aVoid -> showToast("Resposta atualizada com sucesso!"))
+                .addOnFailureListener(e -> showToast("Erro ao atualizar resposta."));
+    }
+
+    private void createResponse(FirebaseFirestore db, String documentPath, String userId, String currentDate, boolean response) {
         Map<String, Object> data = new HashMap<>();
         data.put("userId", userId);
         data.put("date", currentDate);
@@ -251,50 +317,11 @@ public class Home extends AppCompatActivity {
         data.put("timestamp", FieldValue.serverTimestamp());
 
         db.document(documentPath).set(data)
-                .addOnSuccessListener(aVoid -> {
-                    notificationEnabled = response;
-                    Toast.makeText(this, "Resposta salva com sucesso!", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao salvar resposta.", Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(aVoid -> showToast("Resposta salva com sucesso!"))
+                .addOnFailureListener(e -> showToast("Erro ao salvar resposta."));
     }
 
-    private boolean isWithinAllowedTime() {
-        Calendar calendar = Calendar.getInstance();
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = calendar.get(Calendar.MINUTE);
-        return (currentHour == 9 || currentHour == 10 || (currentHour == 11 && currentMinute <= 30));
-    }
-
-    private String obterIdUsuario() {
-        return AlunoAuth.getInstance().getDocumentId();
-    }
-
-    private void showConfirmationDialog() {
-        if (!isWithinAllowedTime()) {
-            Toast.makeText(this, "As alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("aluno").document(obterIdUsuario()).get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists() && documentSnapshot.contains("optou_almoco")) {
-                boolean optouAlmoco = Boolean.TRUE.equals(documentSnapshot.getBoolean("optou_almoco"));
-                String mensagem = optouAlmoco ? "Você escolheu não almoçar. Deseja mudar a opção?\n\n\nAs alterações só podem ser feitas entre as 09:00 e 11:30 da manhã." : "Deseja realmente não almoçar no refeitório?\n\n\nAs alterações só podem ser feitas entre as 09:00 e 11:30 da manhã.";
-                boolean novaResposta = !optouAlmoco;
-
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("Confirmar decisão")
-                        .setMessage(mensagem)
-                        .setPositiveButton("Confirmar", (dialogInterface, which) -> saveResponseToFirebase(novaResposta))
-                        .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss()).create();
-
-                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.dialog_rounded_background);
-
-                dialog.show();
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.primary));
-                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.primary));
-
-            }
-        }).addOnFailureListener(e -> Toast.makeText(this, "Erro ao acessar o banco de dados.", Toast.LENGTH_SHORT).show());
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
