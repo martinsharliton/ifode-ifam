@@ -61,19 +61,16 @@ public class Home extends AppCompatActivity {
         }
 
         BottomNavigationView navigationBar = findViewById(R.id.navigationBar);
-        toolbar.setTitle("Área do Aluno");
-        toolbar.setSubtitle("Home");
+        toolbar.setSubtitle("Cardápio");
         loadFragment(new HomeFragment());
 
         navigationBar.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
             if (item.getItemId() == R.id.home) {
-                toolbar.setTitle("Área do Aluno");
                 toolbar.setSubtitle("Cardápio");
                 fragment = new HomeFragment();
             } else if (item.getItemId() == R.id.menu) {
-                toolbar.setTitle("Área do Aluno");
-                toolbar.setSubtitle("Carteirinha");
+                toolbar.setSubtitle("Minha Carteirinha");
                 fragment = new CarteiraFragment();
             }
             return loadFragment(fragment);
@@ -160,7 +157,7 @@ public class Home extends AppCompatActivity {
         editor.remove("userId");
         editor.apply();
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Login.class);
         intent.putExtra("nomeUsuario", savedLogin);
         intent.putExtra("senhaUsuario", savedPassword);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

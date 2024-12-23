@@ -64,11 +64,11 @@ public class StatisticsFragment extends Fragment {
 
     private void setupPieChart(PieChart pieChart) {
         List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(30, "Péssimo"));
+        entries.add(new PieEntry(20, "Péssimo"));
         entries.add(new PieEntry(20, "Ruim"));
-        entries.add(new PieEntry(25, "Regular"));
-        entries.add(new PieEntry(15, "Bom"));
-        entries.add(new PieEntry(10, "Excelente"));
+        entries.add(new PieEntry(20, "Regular"));
+        entries.add(new PieEntry(20, "Bom"));
+        entries.add(new PieEntry(20, "Excelente"));
 
 
         PieDataSet dataSet = new PieDataSet(entries, "");

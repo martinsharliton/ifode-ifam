@@ -103,7 +103,6 @@ public class AlunoInfoDialogFragment extends DialogFragment {
                             .addOnSuccessListener(aVoid -> {
                                 qtdCreditosAtual.set(documentSnapshot.getLong("qtd_creditos"));
                                 Toast.makeText(getContext(), "Créditos atualizados com sucesso.", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getContext(), "Novo saldo: " + qtdCreditosAtual, Toast.LENGTH_LONG).show();
                                 dismiss();
                             })
                             .addOnFailureListener(e -> Toast.makeText(getContext(), "Erro ao atualizar créditos.", Toast.LENGTH_SHORT).show());

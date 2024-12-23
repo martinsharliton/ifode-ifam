@@ -37,22 +37,18 @@ public class HomeAdm extends AppCompatActivity {
         BottomNavigationView navigationBar2 = findViewById(R.id.navigationBar2);
 
         // Carrega o fragment inicial
-        toolbar2.setTitle("Área do Administrador");
         toolbar2.setSubtitle("Cardápio");
         loadFragment(new HomeAdmFragment());
 
         navigationBar2.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
             if (item.getItemId() == R.id.leitorCarteira) {
-                toolbar2.setTitle("Área do Administrador");
                 toolbar2.setSubtitle("Leitor");
                 fragment = new LeitorCarteiraFragment();
             } else if (item.getItemId() == R.id.cardapio2) {
-                toolbar2.setTitle("Área do Administrador");
                 toolbar2.setSubtitle("Cardápio");
                 fragment = new HomeAdmFragment();
             } else if (item.getItemId() == R.id.estatisticas) {
-                toolbar2.setTitle("Área do Administrador");
                 toolbar2.setSubtitle("Gáraficos");
                 fragment = new StatisticsFragment();
             }
@@ -84,7 +80,7 @@ public class HomeAdm extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_exit) {
-            // Lógica para sair e redirecionar para a MainActivity
+            // Lógica para sair e redirecionar para a Login
             logoutAndRedirectToLogin();
             return true;
         }
@@ -101,8 +97,8 @@ public class HomeAdm extends AppCompatActivity {
         editor.remove("userId"); // Remove a chave 'senhaUsuario'
         editor.apply();
 
-        // Redirecionando para MainActivity e passando as credenciais
-        Intent intent = new Intent(this, MainActivity.class);
+        // Redirecionando para Login e passando as credenciais
+        Intent intent = new Intent(this, Login.class);
         intent.putExtra("nomeUsuario", savedLogin);
         intent.putExtra("senhaUsuario", savedPassword);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     tools:context=".fragment.CarteiraFragment">
 
     <!-- Nome do Usuário -->
     <TextView
         android:id="@+id/profileNamecard"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_extrabold"
         android:text="Nome do Usuário"
+        android:textAllCaps="true"
         android:textAlignment="center"
         android:textColor="@color/primary"
         android:textSize="20sp"
